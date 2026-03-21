@@ -222,6 +222,11 @@
                 </p>
             </div>
 
+            <!-- Sello de Confianza SSL -->
+            <div class="flex justify-center mb-6">
+                <img src="/C:/Users/ninja/.gemini/antigravity/brain/8f8fc352-575b-473b-8c1e-292084fccf64/secure_checkout_badge_premium_1774132579534.png" alt="Secure Checkout Badge" class="max-w-[280px] h-auto drop-shadow-sm">
+            </div>
+
             <!-- Contenedor Seguro de Mercado Pago -->
             <div id="cardPaymentBrick_container" class="mb-4"></div>
 
@@ -343,12 +348,30 @@
                         return new Promise((resolve, reject) => {
                             const email = emailInput.value.trim();
                             const name = nameInput.value.trim();
+                            const statusMsg = document.getElementById('payment-status-message');
 
                             if (!validateEmail(email) || !name) {
-                                alert("Por favor, ingresa tu Nombre Completo y Correo Electrónico primero.");
+                                // Feedback visual de error
+                                statusMsg.classList.remove('hidden');
+                                statusMsg.classList.add('bg-red-500', 'text-white', 'border-none');
+                                statusMsg.innerHTML = `⚠️ <span class="ml-1">Por favor, completa tu <b>Nombre</b> y <b>Email</b> correctamente antes de pagar.</span>`;
+                                
+                                // Scroll suave al error
+                                nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                nameInput.classList.add('border-red-500');
+                                emailInput.classList.add('border-red-500');
+                                
+                                setTimeout(() => {
+                                    nameInput.classList.remove('border-red-500');
+                                    emailInput.classList.remove('border-red-500');
+                                }, 3000);
+
                                 reject();
                                 return;
                             }
+
+                            // Limpiar mensaje previo si existe
+                            statusMsg.classList.add('hidden');
 
                             // 1. Marcar intento de pago en Firestore
                             setDoc(doc(db, "leads_ebook_airfryer", email), {
