@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Dashboard - Accesos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-900 flex justify-center">
+
+    <main class="w-full max-w-[480px] bg-gray-50 min-h-screen shadow-2xl relative pb-12">
+        
+        <!-- Header de Éxito -->
+        <header class="bg-white pt-10 pb-6 px-6 rounded-b-3xl shadow-sm mb-6">
+            <div class="flex flex-col items-center justify-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h1 class="text-2xl font-black text-center text-gray-900 leading-tight">¡Felicitaciones! Tu pedido está completo.</h1>
+                <p class="text-sm text-center text-gray-500 mt-2 font-medium">Aquí tienes acceso de por vida a todo tu material.</p>
+            </div>
+        </header>
+
+        <!-- SECCIÓN 1: SIEMPRE DESBLOQUEADA -->
+        <section class="px-5 mb-8">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                <span class="w-2 h-6 bg-green-500 rounded-full mr-2"></span> Tu Sistema Air Fryer
+            </h2>
+            
+            <div class="space-y-3">
+                <!-- Item 1 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">365 Recetas Air Fryer Sin Aceite</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                        📥 Descargar PDF
+                    </button>
+                </div>
+                <!-- Item 2 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">180 Recetas de Almuerzos y Cenas</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                        📥 Descargar PDF
+                    </button>
+                </div>
+                <!-- Item 3 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">120 Recetas Para Comer Mejor</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                        📥 Descargar PDF
+                    </button>
+                </div>
+                <!-- Item 4 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">40 Saludables & 40 Para Familia</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                        📥 Descargar PDF
+                    </button>
+                </div>
+                <!-- Item 5 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">20 Recetas Bajas en Carbohidratos</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                        📥 Descargar PDF
+                    </button>
+                </div>
+                <!-- Item 6 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">Panadería con tu Air Fryer</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                        📥 Descargar PDF
+                    </button>
+                </div>
+                <!-- Item 7 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">Guía: ¡Imprimir tus recetas es fácil!</span>
+                    <button class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                        📥 Descargar Guía
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: BONOS Y MEJORAS (DINÁMICO) -->
+        <section class="px-5 mb-8" id="bonuses-section">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                <span class="w-2 h-6 bg-yellow-400 rounded-full mr-2"></span> Tus Packs de Salud (Bonos)
+            </h2>
+            
+            <!-- Contenedor Dinámico: Se atenuará si no está comprado -->
+            <div id="bonuses-container" class="space-y-3 relative transition-all duration-500">
+                
+                <!-- Overlay de Bloqueo (Oculto por defecto, se muestra vía JS) -->
+                <div id="lock-overlay" class="hidden absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-50/60 rounded-xl backdrop-blur-[2px]">
+                    <div class="text-6xl mb-2 drop-shadow-md">🔒</div>
+                    <p class="font-bold text-gray-800 text-center px-4">Acceso Bloqueado</p>
+                </div>
+
+                <!-- Items de Bonos -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">+500 Recetas Keto & 100 Keto Fit</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg download-btn transition-colors">
+                        📥 Descargar
+                    </button>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">200 Recetas Vegetarianas & Viandas</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg download-btn transition-colors">
+                        📥 Descargar
+                    </button>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">Postres Saludables & 30 Untables</span>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg download-btn transition-colors">
+                        📥 Descargar
+                    </button>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">Guía "Activa tu Metabolismo"</span>
+                    <button class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded-lg download-btn transition-colors">
+                        📥 Descargar
+                    </button>
+                </div>
+            </div>
+
+            <!-- CTA de Última Oportunidad (Se muestra si está bloqueado) -->
+            <div id="unlock-cta" class="hidden mt-6 bg-yellow-100 border border-yellow-300 p-4 rounded-xl text-center shadow-sm">
+                <p class="text-sm text-gray-800 font-medium mb-3">¿Cambiaste de opinión? Desbloquea toda la biblioteca de salud y postres ahora por solo $7.900 ARS.</p>
+                <button id="btn-unlock-now" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black text-sm font-black py-3 px-4 rounded-lg uppercase shadow-md active:scale-95 transition-transform">
+                    🔓 Desbloquear Ahora ($7.900 ARS)
+                </button>
+                <div id="payment-spinner" class="hidden mt-2 text-xs text-gray-600 font-bold animate-pulse">Procesando pago seguro...</div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Firebase SDK Lógica Dinámica -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            projectId: "leads-airfryer-7b2",
+            appId: "1:608244454396:web:efc4fb2b34f67c99be1879",
+            storageBucket: "leads-airfryer-7b2.firebasestorage.app",
+            apiKey: "AIzaSyAV5dwVjvqcaQKBnJieQQ4YSla7W4CgOJ0",
+            authDomain: "leads-airfryer-7b2.firebaseapp.com",
+            messagingSenderId: "608244454396"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Referencias de UI
+        const bonusesContainer = document.getElementById('bonuses-container');
+        const lockOverlay = document.getElementById('lock-overlay');
+        const unlockCta = document.getElementById('unlock-cta');
+        const btnUnlockNow = document.getElementById('btn-unlock-now');
+        const paymentSpinner = document.getElementById('payment-spinner');
+        const downloadBtns = document.querySelectorAll('.download-btn');
+
+        // Simulador: Leemos el email del usuario de localStorage (Si no hay, usamos uno de prueba temporal)
+        let currentUserEmail = localStorage.getItem('userEmail');
+        
+        // --- MODO DE PRUEBA (Para el Subagente de Navegación) ---
+        // Forzamos un email simulado que NO tiene el upsell comprado para ver el diseño del candado
+        if (!currentUserEmail) {
+            currentUserEmail = 'test_candado@ejemplo.com'; 
+            localStorage.setItem('userEmail', currentUserEmail);
+        }
+
+        const fetchUserState = async () => {
+            if (!currentUserEmail) return;
+
+            try {
+                const docRef = doc(db, "leads_ebook_airfryer", currentUserEmail);
+                const docSnap = await getDoc(docRef);
+
+                let hasUpsell = false;
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    // Chequeamos si compró el upsell o downsell
+                    hasUpsell = data.comprado_upsell === true;
+                }
+
+                // Render UI based on state
+                if (hasUpsell) {
+                    unlockBonusesUI();
+                } else {
+                    lockBonusesUI();
+                }
+
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                // Default a bloqueado si hay error de red
+                lockBonusesUI();
+            }
+        };
+
+        const lockBonusesUI = () => {
+            bonusesContainer.classList.add('opacity-50', 'pointer-events-none', 'select-none');
+            lockOverlay.classList.remove('hidden');
+            unlockCta.classList.remove('hidden');
+            
+            // Cambiar botones a grises para reforzar visualmente el bloqueo
+            downloadBtns.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'bg-green-600');
+                btn.classList.add('bg-gray-400');
+            });
+        };
+
+        const unlockBonusesUI = () => {
+            bonusesContainer.classList.remove('opacity-50', 'pointer-events-none', 'select-none');
+            lockOverlay.classList.add('hidden');
+            unlockCta.classList.add('hidden');
+            
+            // Restaurar botones a colores activos
+            downloadBtns.forEach(btn => {
+                btn.classList.remove('bg-gray-400');
+                if(btn.innerText.includes('Guía')) {
+                    btn.classList.add('bg-green-600');
+                } else {
+                    btn.classList.add('bg-blue-600');
+                }
+            });
+        };
+
+        // Lógica de compra "One-Click"
+        btnUnlockNow.addEventListener('click', async () => {
+            // UI Feedback
+            btnUnlockNow.disabled = true;
+            btnUnlockNow.classList.add('opacity-50');
+            paymentSpinner.classList.remove('hidden');
+
+            try {
+                // Simular delay de pasarela de pago (1.5s)
+                await new Promise(r => setTimeout(r, 1500)); 
+
+                // Actualizar Firestore
+                const docRef = doc(db, "leads_ebook_airfryer", currentUserEmail);
+                await updateDoc(docRef, {
+                    comprado_upsell: true,
+                    status: 'comprado_vip' // Opcional, actualizar status global
+                });
+
+                // Desbloquear UI en tiempo real
+                unlockBonusesUI();
+                
+            } catch (error) {
+                console.error("Error en pago:", error);
+                alert("Hubo un problema procesando tu pago. Inténtalo de nuevo.");
+            } finally {
+                btnUnlockNow.disabled = false;
+                btnUnlockNow.classList.remove('opacity-50');
+                paymentSpinner.classList.add('hidden');
+            }
+        });
+
+        // Inicializar
+        fetchUserState();
+
+    </script>
+</body>
+</html>
