@@ -406,10 +406,6 @@
                                 
                                 statusMsg.innerHTML = `<p class="font-bold">Error en el Pago</p><p class="text-sm font-mono text-xs uppercase opacity-80">${error.message}</p><p class="mt-2">${userFriendlyMsg}</p>`;
                             });
-                            .catch((error) => {
-                                reject();
-                                alert("Hubo un error de conexión procesando el pago.");
-                            });
                         });
                     },
                     onError: (error) => {
