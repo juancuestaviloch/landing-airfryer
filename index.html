@@ -346,6 +346,8 @@
                                 last_action: serverTimestamp()
                             }, { merge: true });
 
+                            console.log("[MP_QA] Iniciando procesarPago con token:", cardFormData.token);
+
                             // 2. Procesar el Token en nuestro Backend
                             fetch('https://us-central1-leads-airfryer-7b2.cloudfunctions.net/procesarPago', {
                                 method: 'POST',
@@ -362,22 +364,37 @@
                                     description: currentAmount === 5900 ? 'Pack Máster Air Fryer' : 'Pack Máster Air Fryer + Guía Congelado'
                                 }),
                             })
-                            .then((response) => response.json())
+                            .then(async (response) => {
+                                const data = await response.json();
+                                if (!response.ok) throw new Error(data.detail || data.error || "Error en el servidor");
+                                return data;
+                            })
                             .then((response) => {
                                 resolve();
                                 if (response.status === 'approved' || response.status === 'in_process') {
-                                    // Guardar temporal para el downsell
                                     localStorage.setItem('userEmail', email);
-                                    
-                                    // Redirigir al Upsell
                                     window.location.href = 'upsell.html';
                                 } else {
-                                    const statusMsg = document.getElementById('payment-status-message');
-                                    statusMsg.classList.remove('hidden');
-                                    statusMsg.classList.add('bg-red-100', 'text-red-700');
-                                    statusMsg.innerText = "Error: El pago fue rechazado. Revisa tu saldo o intenta con otra tarjeta.";
+                                    throw new Error(`Estado: ${response.status}. Detalle: ${response.status_detail || 'N/A'}`);
                                 }
                             })
+                            .catch((error) => {
+                                resolve(); // Cerramos el estado de carga del Brick
+                                console.error("[MP_QA_ERROR] Error en el flujo de pago:", error);
+                                const statusMsg = document.getElementById('payment-status-message');
+                                statusMsg.classList.remove('hidden');
+                                statusMsg.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-400');
+                                
+                                // Mensajes amigables para errores comunes de Sandbox
+                                let userFriendlyMsg = "Error: El pago fue rechazado. Revisa tus datos e intenta de nuevo.";
+                                if (error.message.includes("forbidden")) {
+                                    userFriendlyMsg = "⚠️ Error de Sandbox: El 'Email del Pagador' no está permitido para estas credenciales de prueba. Usa el email de tu Test Buyer oficial.";
+                                } else if (error.message.includes("users involved")) {
+                                    userFriendlyMsg = "⚠️ Error de Sandbox: Inconsistencia entre el Comprador y el Vendedor de prueba.";
+                                }
+                                
+                                statusMsg.innerHTML = `<p class="font-bold">Error en el Pago</p><p class="text-sm">${userFriendlyMsg}</p>`;
+                            });
                             .catch((error) => {
                                 reject();
                                 alert("Hubo un error de conexión procesando el pago.");
