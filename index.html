@@ -18,6 +18,81 @@
         html {
             scroll-behavior: smooth;
         }
+
+        /* ===== WhatsApp Clone Styles ===== */
+        .wa-bg {
+            background-color: #ECE5DD;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8c0b6' fill-opacity='0.18'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .wa-bubble-in {
+            background: #ffffff;
+            border-radius: 0 8px 8px 8px;
+            position: relative;
+        }
+        .wa-bubble-in::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-top: 0px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #ffffff;
+        }
+
+        /* Audio waveform bars */
+        .wa-waveform {
+            display: flex;
+            align-items: center;
+            gap: 1.5px;
+            height: 20px;
+        }
+        .wa-waveform span {
+            display: inline-block;
+            width: 2.5px;
+            background: #8696a0;
+            border-radius: 2px;
+        }
+
+        /* ===== Instagram Stories Carousel ===== */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .ig-story-card {
+            flex: 0 0 150px;
+            height: 266px;
+            scroll-snap-align: start;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .ig-progress-bar {
+            display: flex;
+            gap: 3px;
+            padding: 6px 8px 0;
+        }
+        .ig-progress-bar span {
+            flex: 1;
+            height: 2px;
+            background: rgba(255,255,255,0.35);
+            border-radius: 2px;
+        }
+        .ig-progress-bar span.active {
+            background: rgba(255,255,255,0.9);
+        }
+        .ig-sticker {
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 6px 10px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 700;
+            font-size: 12px;
+            transform: rotate(-3deg);
+            display: inline-block;
+        }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-900">
@@ -156,7 +231,7 @@
 
         </section>
 
-        <!-- ========== BLOQUE 5: Prueba Social Rústica / UGC ========== -->
+        <!-- ========== BLOQUE 5: Prueba Social Hiperrealista / UGC ========== -->
         <section class="mt-10 pb-6">
 
             <!-- Título de sección -->
@@ -164,29 +239,126 @@
                 Lo que se comenta en los grupos y redes:
             </h2>
 
-            <!-- Captura 1: WhatsApp -->
-            <div class="transform -rotate-1 mb-3">
-                <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-gray-800 max-w-[90%]">
-                    <p class="text-xs text-gray-400 mb-2 font-mono">+54 9 11 4***-****</p>
-                    <p class="leading-relaxed">
-                        Che te juro q desconecte el horno tradicional de la pared. Este recetario me resolvio las cenas de toda la semana. las milangas salieron un 10. 🙌
-                    </p>
-                    <p class="text-xs text-gray-400 text-right mt-2">20:15 ✓✓</p>
+            <!-- ====== COMPONENTE 1: CLON DE WHATSAPP ====== -->
+            <div class="wa-bg rounded-xl overflow-hidden shadow-lg mb-8 border border-gray-300">
+
+                <!-- Header del Chat -->
+                <div class="bg-[#075E54] text-white flex items-center px-3 py-2.5 space-x-3">
+                    <svg class="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                    <div class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-xs font-bold text-white">MV</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold leading-none">Mamá de Valen 👩‍🍳</p>
+                        <p class="text-[10px] opacity-70 mt-0.5">en línea</p>
+                    </div>
+                    <svg class="w-5 h-5 opacity-70" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                </div>
+
+                <!-- Cuerpo del Chat -->
+                <div class="px-3 py-4 space-y-2">
+
+                    <!-- Burbuja 1: Audio simulado -->
+                    <div class="max-w-[85%]">
+                        <div class="wa-bubble-in px-3 py-2 shadow-sm">
+                            <div class="flex items-center space-x-2">
+                                <!-- Play button -->
+                                <div class="w-8 h-8 rounded-full bg-[#075E54] flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                                <!-- Waveform -->
+                                <div class="wa-waveform flex-1">
+                                    <span style="height:5px"></span><span style="height:10px"></span><span style="height:14px"></span><span style="height:8px"></span><span style="height:18px"></span><span style="height:12px"></span><span style="height:6px"></span><span style="height:16px"></span><span style="height:20px"></span><span style="height:10px"></span><span style="height:14px"></span><span style="height:7px"></span><span style="height:18px"></span><span style="height:11px"></span><span style="height:5px"></span><span style="height:13px"></span><span style="height:9px"></span><span style="height:17px"></span><span style="height:6px"></span><span style="height:12px"></span><span style="height:8px"></span><span style="height:15px"></span><span style="height:10px"></span><span style="height:4px"></span><span style="height:11px"></span>
+                                </div>
+                                <span class="text-[10px] text-gray-400 flex-shrink-0">0:12</span>
+                            </div>
+                            <div class="flex justify-end items-center space-x-1 mt-0.5">
+                                <span class="text-[10px] text-gray-400">20:14</span>
+                                <span class="text-[10px] text-blue-500">✓✓</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Burbuja 2: Texto principal -->
+                    <div class="max-w-[85%]">
+                        <div class="wa-bubble-in px-3 py-2 shadow-sm">
+                            <p class="text-[13px] text-gray-900 leading-relaxed">
+                                Che te juro q desconecte el horno tradicional de la pared. Este recetario me resolvio las cenas de toda la semana. Las milangas de pollo salen un 10. 🙌
+                            </p>
+                            <div class="flex justify-end items-center space-x-1 mt-1">
+                                <span class="text-[10px] text-gray-400">20:15</span>
+                                <span class="text-[10px] text-blue-500">✓✓</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Burbuja 3: Respuesta corta -->
+                    <div class="max-w-[70%] ml-auto">
+                        <div class="bg-[#E7FFDB] rounded-lg rounded-tr-none px-3 py-2 shadow-sm relative">
+                            <div class="absolute top-0 right-[-8px] w-0 h-0 border-t-0 border-b-[8px] border-l-[8px] border-b-transparent border-l-[#E7FFDB]"></div>
+                            <p class="text-[13px] text-gray-900 leading-relaxed">
+                                Jajaja que copada!! 😍 pasame la de las milangas
+                            </p>
+                            <div class="flex justify-end items-center space-x-1 mt-1">
+                                <span class="text-[10px] text-gray-400">20:16</span>
+                                <span class="text-[10px] text-blue-500">✓✓</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- Captura 2: Instagram -->
-            <div class="transform rotate-1 ml-auto max-w-[93%]">
-                <div class="bg-white border border-gray-200 rounded-md p-4 text-sm text-gray-800">
-                    <p class="font-bold text-black text-xs mb-1">@mami.ocupada88</p>
-                    <p class="leading-relaxed text-gray-700">
-                        No puedo creer que no ensucio más fuentes. Hago el pollo con papas en 15 min y solo le paso una esponja a la canasta de la freidora. Vale cada peso, lo recuperé el primer finde que no pedí delivery de pizzas jajaja
-                    </p>
+            <!-- ====== COMPONENTE 2: CARRUSEL DE HISTORIAS DE INSTAGRAM ====== -->
+            <div class="mb-6">
+                <div class="flex items-center space-x-2 mb-3">
+                    <svg class="w-5 h-5 text-pink-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Historias de clientes</p>
+                </div>
+                <div class="flex space-x-3 overflow-x-auto scrollbar-hide pb-2" style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
+
+                    <!-- Story Card 1 -->
+                    <div class="ig-story-card bg-gradient-to-br from-gray-800 to-gray-950 flex flex-col">
+                        <div class="ig-progress-bar"><span class="active"></span><span></span><span></span></div>
+                        <div class="flex items-center space-x-2 px-2 mt-2">
+                            <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1.5px]"><div class="w-full h-full rounded-full bg-gray-800 flex items-center justify-center text-[7px] text-white font-bold">LP</div></div>
+                            <span class="text-[10px] text-white font-semibold">@lau.perez_ok</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center justify-center px-3">
+                            <p class="text-gray-500 text-[10px] text-center mb-3">[ Video: Milanesas crujientes en Air Fryer ]</p>
+                            <div class="ig-sticker">Chau delivery de domingos 🍕👋</div>
+                        </div>
+                    </div>
+
+                    <!-- Story Card 2 -->
+                    <div class="ig-story-card bg-gradient-to-br from-gray-700 to-gray-900 flex flex-col">
+                        <div class="ig-progress-bar"><span class="active"></span><span class="active"></span><span></span></div>
+                        <div class="flex items-center space-x-2 px-2 mt-2">
+                            <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1.5px]"><div class="w-full h-full rounded-full bg-gray-800 flex items-center justify-center text-[7px] text-white font-bold">MC</div></div>
+                            <span class="text-[10px] text-white font-semibold">@mami.cocina88</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center justify-center px-3">
+                            <p class="text-gray-500 text-[10px] text-center mb-3">[ Video: Pollo con papas doradas ]</p>
+                            <div class="ig-sticker">15 minutos literal 🤯</div>
+                        </div>
+                    </div>
+
+                    <!-- Story Card 3 -->
+                    <div class="ig-story-card bg-gradient-to-br from-gray-800 to-gray-950 flex flex-col">
+                        <div class="ig-progress-bar"><span class="active"></span><span class="active"></span><span class="active"></span></div>
+                        <div class="flex items-center space-x-2 px-2 mt-2">
+                            <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1.5px]"><div class="w-full h-full rounded-full bg-gray-800 flex items-center justify-center text-[7px] text-white font-bold">DF</div></div>
+                            <span class="text-[10px] text-white font-semibold">@dani.fit_arg</span>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center justify-center px-3">
+                            <p class="text-gray-500 text-[10px] text-center mb-3">[ Video: Empanadas sin aceite ]</p>
+                            <div class="ig-sticker">0 aceite, posta 🫶</div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
             <!-- Micro-copy de cierre -->
-            <p class="text-xs text-center text-gray-500 mt-5">
+            <p class="text-xs text-center text-gray-500 mt-3">
                 Capturas reales de clientes. Identidades ocultas por privacidad.
             </p>
 
