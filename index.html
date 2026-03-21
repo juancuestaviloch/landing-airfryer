@@ -15,6 +15,9 @@
             margin: 0;
             padding: 0;
         }
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-900">
@@ -38,9 +41,9 @@
         </div>
 
         <!-- Call to Action (Thumb-Zone) -->
-        <button class="mt-6 w-full min-h-[60px] bg-green-600 hover:bg-green-700 text-white text-xl sm:text-2xl font-black py-4 px-4 rounded-lg uppercase leading-tight shadow-md active:scale-[0.98] transition-transform">
+        <a href="#seccion-checkout" class="mt-6 w-full min-h-[60px] bg-green-600 hover:bg-green-700 text-white text-xl sm:text-2xl font-black py-4 px-4 rounded-lg uppercase leading-tight shadow-md active:scale-[0.98] transition-transform flex items-center justify-center text-center">
             Sí, Quiero el Sistema Completo por solo $5.900 ARS
-        </button>
+        </a>
 
         <!-- Micro-copy de fricción cero -->
         <p class="text-xs text-center text-gray-500 mt-3 font-medium">
@@ -118,11 +121,20 @@
                 Entonces, ¿cuánto cuesta recuperar tu tiempo y tu paz mental?
             </h2>
 
-            <!-- El Precio (El Ancla) -->
-            <p class="text-base text-gray-800 text-left mb-4 leading-relaxed">
-                El acceso inmediato a la Tabla Maestra y a las 100+ recetas cuesta un único pago de
-                <span class="text-4xl sm:text-5xl font-black inline-block mt-1" style="background-color: #FACC15; padding: 0 4px;">$5.900 ARS</span>
+            <!-- Anclaje y Escasez -->
+            <p class="text-xs text-gray-500 italic text-center mb-2 leading-relaxed">
+                Al no imprimirlo en papel moneda, hemos suprimido los costos físicos. Por eso solo pagas una fracción del precio, solo hasta el domingo a medianoche.
             </p>
+            <p class="text-lg text-gray-400 font-bold line-through text-center mb-4">
+                ~~Valor Real: $15.000 ARS~~
+            </p>
+
+            <!-- El Precio (El Ancla) -->
+            <p class="text-base text-gray-800 text-center mb-4 leading-relaxed font-medium">
+                El acceso inmediato a la Tabla Maestra y a las 100+ recetas cuesta un único pago de<br>
+                <span class="text-4xl sm:text-5xl font-black inline-block mt-2" style="background-color: #FACC15; padding: 0 4px;">$5.900 ARS</span>
+            </p>
+
 
             <!-- La Comparación Agresiva -->
             <p class="text-base text-gray-800 text-left mb-4">
@@ -135,7 +147,7 @@
             <!-- Caja de Garantía Rústica -->
             <div class="border-2 border-dashed border-red-800 bg-gray-50 p-6 rounded-md">
                 <p class="font-black text-lg text-center text-black mb-3 uppercase">
-                    GARANTÍA DE HIERRO DE 7 DÍAS
+                    🛡️ GARANTÍA DE HIERRO DE 7 DÍAS
                 </p>
                 <p class="text-base text-gray-800 text-left leading-relaxed">
                     Descarga el E-book. Prueba las recetas. Si en 7 días no estás cocinando cenas deliciosas en 15 minutos exactos y limpiando todo con una sola pasada de esponja, mándame un email. Te devuelvo el 100% de tus pesos sin hacerte ninguna pregunta. El riesgo es todo mío.
@@ -157,7 +169,7 @@
                 <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-gray-800 max-w-[90%]">
                     <p class="text-xs text-gray-400 mb-2 font-mono">+54 9 11 4***-****</p>
                     <p class="leading-relaxed">
-                        Che, literalmente desconecté el horno tradicional de la pared. Este recetario me resolvió las cenas de los chicos para toda la semana. Las milanesas salen un 10. 🙌
+                        Che te juro q desconecte el horno tradicional de la pared. Este recetario me resolvio las cenas de toda la semana. las milangas salieron un 10. 🙌
                     </p>
                     <p class="text-xs text-gray-400 text-right mt-2">20:15 ✓✓</p>
                 </div>
@@ -181,7 +193,7 @@
         </section>
 
         <!-- ========== BLOQUE 6: Checkout y Upsell ========== -->
-        <section class="mt-8 pb-10">
+        <section id="seccion-checkout" class="mt-8 pb-10 scroll-mt-6">
 
             <!-- Encabezado Seguro -->
             <h2 class="text-2xl font-black text-center text-black mb-1">
@@ -243,8 +255,26 @@
 
         </section>
 
+        <!-- Sticky Mobile CTA -->
+        <a href="#seccion-checkout" id="sticky-cta" class="fixed bottom-0 left-0 w-full z-50 bg-[#FF5A00] hover:bg-[#E04D00] text-white font-black py-4 px-4 text-center text-xl uppercase shadow-[0_-4px_10px_rgba(0,0,0,0.3)] transition-transform duration-300 transform translate-y-full flex items-center justify-center">
+            Obtener Sistema - $5.900 ARS
+        </a>
 
     </main>
+
+    <!-- Script del Sticky CTA -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const stickyCta = document.getElementById('sticky-cta');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) {
+                    stickyCta.classList.remove('translate-y-full');
+                } else {
+                    stickyCta.classList.add('translate-y-full');
+                }
+            });
+        });
+    </script>
 
     <!-- Mercado Pago SDK -->
     <script src="https://sdk.mercadopago.com/js/v2"></script>
