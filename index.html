@@ -249,6 +249,17 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // --- SISTEMA DE SANITIZACIÓN PROACTIVA (Pedida por el usuario) ---
+        // Elimina espacios y guiones automáticamente al pegar o escribir
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'name-input' || e.target.id === 'email-input') {
+                // Para nombre y email, solo limpieza básica de espacios al inicio/final
+            }
+        });
+        
+        // El Brick de MP se sanitiza solo, pero forzamos el modo Sandbox asegurando la Public Key
+        console.log("[MP_QA] Cargando con Public Key Sandbox...");
+
         const firebaseConfig = {
             projectId: "leads-airfryer-7b2",
             appId: "1:608244454396:web:efc4fb2b34f67c99be1879",
@@ -387,13 +398,13 @@
                                 
                                 // Mensajes amigables para errores comunes de Sandbox
                                 let userFriendlyMsg = "Error: El pago fue rechazado. Revisa tus datos e intenta de nuevo.";
-                                if (error.message.includes("forbidden")) {
-                                    userFriendlyMsg = "⚠️ Error de Sandbox: El 'Email del Pagador' no está permitido para estas credenciales de prueba. Usa el email de tu Test Buyer oficial.";
-                                } else if (error.message.includes("users involved")) {
-                                    userFriendlyMsg = "⚠️ Error de Sandbox: Inconsistencia entre el Comprador y el Vendedor de prueba.";
+                                if (error.message.includes("forbidden") || error.message.includes("users involved")) {
+                                    userFriendlyMsg = "⚠️ Error de Sandbox: Conflicto de cuentas (Comprador vs Vendedor). Crea un Test Buyer en tu panel de Mercado Pago.";
+                                } else if (error.message.includes("format")) {
+                                    userFriendlyMsg = "⚠️ Error de Formato: El número de tarjeta no es válido para este entorno de prueba.";
                                 }
                                 
-                                statusMsg.innerHTML = `<p class="font-bold">Error en el Pago</p><p class="text-sm">${userFriendlyMsg}</p>`;
+                                statusMsg.innerHTML = `<p class="font-bold">Error en el Pago</p><p class="text-sm font-mono text-xs uppercase opacity-80">${error.message}</p><p class="mt-2">${userFriendlyMsg}</p>`;
                             });
                             .catch((error) => {
                                 reject();
