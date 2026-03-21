@@ -139,6 +139,17 @@
 
     </main>
 
+    <!-- QA DEBUG PANEL FLOTANTE -->
+    <div id="qaPanel" class="fixed bottom-4 right-4 bg-gray-900 border border-gray-700 text-white p-4 rounded-xl shadow-2xl z-50 w-64 opacity-30 hover:opacity-100 transition-opacity">
+        <h4 class="font-black text-sm mb-2 text-yellow-500 uppercase flex items-center"><span class="mr-1">🛠️</span> QA Test Panel</h4>
+        <input type="email" id="qaEmail" placeholder="Email de prueba" class="w-full text-black px-3 py-2 text-xs rounded-lg mb-3 outline-none" value="test_candado@ejemplo.com">
+        <div class="space-y-2">
+            <button onclick="window.forceQAStatus(false)" class="w-full text-left hover:bg-gray-700 px-2 py-1.5 rounded text-xs transition-colors">✅ Simular Compra Normal</button>
+            <button onclick="window.forceQAStatus(true)" class="w-full text-left hover:bg-gray-700 px-2 py-1.5 rounded text-xs transition-colors text-yellow-400 font-bold">🔥 Simular Compra + Upsell</button>
+            <button onclick="localStorage.removeItem('userEmail'); location.reload();" class="w-full text-left hover:bg-red-900 px-2 py-1.5 rounded text-xs transition-colors text-red-400 mt-2 border-t border-gray-700 pt-2">❌ Resetear Estado Local</button>
+        </div>
+    </div>
+
     <!-- Firebase SDK Lógica Dinámica -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -264,6 +275,37 @@
 
         // Inicializar
         fetchUserState();
+
+        // --- QA PANEL: FORCING STATUS FOR E2E TESTING ---
+        window.forceQAStatus = async (simulateUpsell) => {
+            const emailToForce = document.getElementById('qaEmail').value || currentUserEmail;
+            console.log(`[QA] Forzando estado. Email: ${emailToForce}, Upsell: ${simulateUpsell}`);
+            
+            try {
+                // Notificando que estamos procesando en QA
+                const qaInput = document.getElementById('qaEmail');
+                qaInput.value = "⏳ Forzando...";
+                
+                const docRef = doc(db, "leads_ebook_airfryer", emailToForce);
+                await updateDoc(docRef, {
+                    comprado_upsell: simulateUpsell,
+                    status: simulateUpsell ? 'pago_completado_upsell' : 'pago_completado_principal'
+                });
+                
+                // Restaurar el email en el input y guardar en local storage
+                qaInput.value = emailToForce;
+                localStorage.setItem('userEmail', emailToForce);
+                currentUserEmail = emailToForce;
+                
+                // Forzar recarga de UI simulando lo que pasaría si llegaran desde otra vista
+                fetchUserState();
+                console.log(`[QA] Éxito. Estado forzado a Upsell: ${simulateUpsell}`);
+            } catch (e) {
+                console.error("[QA] Error al forzar estado:", e);
+                alert("QA Panel Error: Verifica tu consola y conexión. ¿El lead existe en Firebase? Primero genera el lead haciendo submit en la landing page.");
+                document.getElementById('qaEmail').value = emailToForce;
+            }
+        };
 
     </script>
 </body>

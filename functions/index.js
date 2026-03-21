@@ -150,9 +150,10 @@ exports.procesarPago = onRequest({ cors: true, secrets: [mpAccessToken] }, async
                 payer: { email: email }
             }
         });
+        console.log(`[MP_QA] procesarPago ejecutado - ID de pago generado: ${paymentData.id} para ${email}`);
         res.status(200).json({ status: paymentData.status, id: paymentData.id });
     } catch (error) {
-        console.error("[MP] Pago fallido:", error);
+        console.error("[MP_QA_ERROR] Pago fallido:", error);
         res.status(500).json({ error: "No se pudo procesar el pago." });
     }
 });
@@ -164,7 +165,11 @@ exports.procesarPago = onRequest({ cors: true, secrets: [mpAccessToken] }, async
 exports.webhookMercadoPago = onRequest({ secrets: [mpWebhookSecret, mpAccessToken] }, async (req, res) => {
     const xSignature = req.headers['x-signature'];
     const xRequestId = req.headers['x-request-id'];
-    if (!xSignature || !xRequestId) return res.status(400).send('Bad Request');
+    console.log(`[MP_QA] Webhook recibido - Request ID: ${xRequestId}`);
+    if (!xSignature || !xRequestId) {
+        console.error(`[MP_QA_ERROR] Faltan headers de seguridad`);
+        return res.status(400).send('Bad Request');
+    }
 
     try {
         const parts = xSignature.split(',');
@@ -180,24 +185,37 @@ exports.webhookMercadoPago = onRequest({ secrets: [mpWebhookSecret, mpAccessToke
         const hmac = crypto.createHmac('sha256', mpWebhookSecret.value());
         hmac.update(manifest);
         
-        if (hmac.digest('hex') !== v1) return res.status(403).send('Invalid Signature');
+        if (hmac.digest('hex') !== v1) {
+            console.error(`[MP_QA_ERROR] Firma inválida detectada para Request ID: ${xRequestId}`);
+            return res.status(403).send('Invalid Signature');
+        }
+
+        console.log(`[MP_QA] Firma validada OK. Tipo de evento: ${req.body.type}, Data ID: ${dataID}`);
 
         if (req.body.type === 'payment') {
             const paymentDetails = await new Payment(new MercadoPagoConfig({ accessToken: mpAccessToken.value() })).get({ id: dataID });
+            
+            console.log(`[MP_QA] Detalles del pago ID ${dataID} - Estado: ${paymentDetails.status}, Monto: ${paymentDetails.transaction_amount}`);
+
             if (paymentDetails.status === 'approved') {
                 const mail = paymentDetails.payer.email;
                 const desc = paymentDetails.description || '';
                 const isUpsell = desc.toLowerCase().includes('mega') || desc.toLowerCase().includes('salud');
+                
+                console.log(`[MP_QA] Pago aprobado para: ${mail}. Es Upsell: ${isUpsell}`);
 
                 await db.collection("leads_ebook_airfryer").doc(mail).set({
                     status: isUpsell ? 'pago_completado_upsell' : 'pago_completado_principal',
                     comprado_upsell: isUpsell,
                     last_update: admin.firestore.FieldValue.serverTimestamp()
                 }, { merge: true });
+                
+                console.log(`[MP_QA] Firestore actualizado con éxito para: ${mail}`);
             }
         }
         res.status(200).send('OK');
     } catch (e) {
+        console.error(`[MP_QA_ERROR] Excepción crítica en el Webhook:`, e);
         res.status(500).send('Error');
     }
 });
