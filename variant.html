@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Cenas - 15 Minutos | Premium</title>
+    <meta name="description" content="El sistema definitivo para cocinar cenas deliciosas en 15 minutos con tu Air Fryer. 100+ recetas argentinas, la tabla maestra de tiempos, y acceso de por vida.">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0a0f1e;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ===== Premium Gradient Accents ===== */
+        .gold-gradient {
+            background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glass-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .glow-amber {
+            box-shadow: 0 0 30px rgba(245,158,11,0.2), 0 0 60px rgba(245,158,11,0.1);
+        }
+
+        /* ===== FAQ Accordion ===== */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+        }
+        .faq-answer.open {
+            max-height: 600px;
+            padding-top: 12px;
+            padding-bottom: 4px;
+        }
+        .faq-chevron {
+            transition: transform 0.3s ease;
+        }
+        .faq-chevron.open {
+            transform: rotate(180deg);
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(251, 191, 36, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            50% { transform: translateY(-30px) translateX(15px); opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-100">
+
+    <!-- Contenedor principal 'Mobile-First', Diseño Premium Oscuro -->
+    <main class="w-full max-w-[520px] mx-auto bg-gradient-to-b from-[#0a0f1e] via-[#0f172a] to-[#0a0f1e] min-h-screen pb-16 pt-0 overflow-hidden relative">
+
+        <!-- ========== HERO SECTION ========== -->
+        <section class="px-5 pt-8 pb-10 relative">
+
+            <!-- Partículas decorativas -->
+            <div class="particle" style="top:20px;left:10%;animation-delay:0s"></div>
+            <div class="particle" style="top:60px;right:15%;animation-delay:1.5s"></div>
+            <div class="particle" style="top:120px;left:70%;animation-delay:3s"></div>
+
+            <!-- Badge Exclusivo -->
+            <div class="flex justify-center mb-6">
+                <span class="inline-flex items-center space-x-1.5 border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-widest">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <span>Edición Exclusiva Argentina</span>
+                </span>
+            </div>
+
+            <!-- Headline Principal -->
+            <h1 class="text-3xl sm:text-4xl leading-[1.15] font-extrabold text-white text-center mb-5 tracking-tight">
+                Cenas Deliciosas en
+                <span class="gold-text block mt-1">15 Minutos</span>
+                <span class="block text-lg sm:text-xl font-medium text-gray-400 mt-3">Sin ensuciar la cocina. Sin gastar en delivery.</span>
+            </h1>
+
+            <!-- Subtítulo -->
+            <p class="text-sm text-gray-500 text-center mb-6 max-w-[380px] mx-auto leading-relaxed">
+                El sistema paso a paso que ya usan 1.200+ familias argentinas para transformar su Air Fryer en una máquina de cenas gourmet.
+            </p>
+
+            <!-- Media Placeholder -->
+            <div class="w-full aspect-[9/16] bg-slate-800/50 border border-slate-700/50 rounded-2xl flex items-center justify-center mb-6 overflow-hidden relative">
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-8 h-8 text-amber-500 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <span class="text-gray-500 font-medium text-sm">Video: Cena completa en 15 min</span>
+                </div>
+            </div>
+
+            <!-- CTA Principal -->
+            <a href="#seccion-checkout" class="block w-full gold-gradient glow-amber text-center text-amber-950 text-xl font-extrabold py-4.5 px-4 rounded-xl uppercase shadow-lg active:scale-[0.97] transition-transform" style="padding-top:18px;padding-bottom:18px;">
+                Quiero el Sistema Completo →
+            </a>
+            <p class="text-xs text-center text-gray-600 mt-3 font-medium">
+                🔒 Descarga digital instantánea · Acceso de por vida
+            </p>
+        </section>
+
+        <!-- ========== BLOQUE 2: Agitación del Dolor ========== -->
+        <section class="px-5 py-10 relative">
+            <div class="glass-card rounded-2xl p-6">
+                <h2 class="text-2xl font-bold text-white text-center mb-6">
+                    El problema no es tu falta de voluntad.<br>
+                    <span class="gold-text">Es tu falta de tiempo.</span>
+                </h2>
+
+                <div class="space-y-4 text-sm text-gray-400 leading-relaxed">
+                    <p>Sabemos exactamente cómo es tu rutina. Llegas a casa a las 19:30 h, agotado después de un día interminable.</p>
+                    <p>Abres la heladera y la idea de ponerte a picar cebolla, calentar sartenes y luego tener que lavar platos durante media hora te paraliza.</p>
+                    <p>Terminas agarrando el celular y pidiendo empanadas o hamburguesas mediocres por una app que te cobra <span class="text-amber-400 font-semibold">$18.000 ARS</span> con el envío incluido.</p>
+                </div>
+
+                <!-- Contraste Visual -->
+                <div class="mt-8 space-y-3">
+                    <div class="flex items-start space-x-3 text-sm">
+                        <span class="text-red-400 flex-shrink-0 mt-0.5">✕</span>
+                        <span class="text-gray-400">El desgaste de planificar cenas diferentes cada noche.</span>
+                    </div>
+                    <div class="flex items-start space-x-3 text-sm">
+                        <span class="text-red-400 flex-shrink-0 mt-0.5">✕</span>
+                        <span class="text-gray-400">El drenaje financiero de depender del delivery los fines de semana.</span>
+                    </div>
+                    <div class="flex items-start space-x-3 text-sm">
+                        <span class="text-red-400 flex-shrink-0 mt-0.5">✕</span>
+                        <span class="text-gray-400">La resignación a comer papas fritas empapadas en aceite.</span>
+                    </div>
+                </div>
+                <div class="mt-6 space-y-3">
+                    <div class="flex items-start space-x-3 text-sm">
+                        <span class="text-emerald-400 flex-shrink-0 mt-0.5">✓</span>
+                        <span class="text-gray-300">El alivio de resolver la cena con platos crujientes en 15 minutos reales.</span>
+                    </div>
+                    <div class="flex items-start space-x-3 text-sm">
+                        <span class="text-emerald-400 flex-shrink-0 mt-0.5">✓</span>
+                        <span class="text-gray-300">La magia de limpiar solo la canasta con una esponja en 60 segundos.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== BLOQUE 3: La Solución — Qué Te Llevas ========== -->
+        <section class="px-5 py-10">
+
+            <!-- Mockup del E-book -->
+            <div class="w-full aspect-[4/5] bg-slate-800/50 border border-slate-700/40 rounded-2xl flex items-center justify-center p-6 mb-8 overflow-hidden">
+                <span class="text-gray-600 font-semibold text-center text-sm leading-relaxed">[ Mockup: E-book en pantalla de celular ]</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white mb-8">
+                Esto es lo que te llevas <span class="gold-text">hoy</span>:
+            </h2>
+
+            <!-- Beneficios con íconos -->
+            <div class="space-y-5">
+                <div class="glass-card rounded-xl p-5 flex items-start space-x-4">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/15 flex items-center justify-center flex-shrink-0">
+                        <span class="text-lg">📖</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm mb-1">100+ Recetas Clasificadas por Tiempo</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Desde desayunos de 5 minutos hasta cenas familiares completas. Eliminamos la fatiga de pensar '¿qué cocino hoy?'.</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-xl p-5 flex items-start space-x-4">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/15 flex items-center justify-center flex-shrink-0">
+                        <span class="text-lg">🇦🇷</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm mb-1">Ingredientes 100% de Supermercado Argentino</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Nada importado ni caro. Recetas adaptadas a lo que conseguís en el súper de tu barrio.</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-xl p-5 flex items-start space-x-4">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/15 flex items-center justify-center flex-shrink-0">
+                        <span class="text-lg">🌡️</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm mb-1">Tabla Maestra de Tiempos y Temperaturas</h3>
+                        <p class="text-xs text-gray-500 leading-relaxed">Nunca más sacarás pollo quemado por fuera y crudo por dentro. Tiempos exactos, resultados perfectos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECCIÓN: Conocé al Chef / Autor ========== -->
+        <section class="px-5 py-10">
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <!-- Avatar del Author -->
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-[3px] mx-auto mb-4">
+                    <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center overflow-hidden">
+                        <span class="text-3xl">👨‍🍳</span>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">El Chef detrás del Sistema</h3>
+                <p class="text-amber-400 text-xs font-semibold uppercase tracking-wider mb-4">Creador del Método "15 Minutos"</p>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    "Después de años perfeccionando recetas para mi familia, creé este sistema para que cualquier persona — sin importar su nivel de experiencia — pueda preparar cenas increíbles en minutos. Ya lo usan más de 1.200 familias en toda Argentina."
+                </p>
+            </div>
+        </section>
+
+        <!-- ========== BLOQUE 4: Anclaje de Precio y Garantía ========== -->
+        <section class="px-5 py-10">
+            <h2 class="text-2xl font-bold text-center text-white mb-6">
+                ¿Cuánto cuesta recuperar tu <span class="gold-text">tiempo y paz mental</span>?
+            </h2>
+
+            <p class="text-xs text-gray-600 italic text-center mb-3 leading-relaxed">
+                Al ser digital, eliminamos los costos de imprenta. Por eso hoy pagas una fracción del valor real.
+            </p>
+            <p class="text-lg text-gray-600 font-bold line-through text-center mb-2">
+                Valor Real: $15.000 ARS
+            </p>
+
+            <div class="text-center mb-6">
+                <p class="text-sm text-gray-400 mb-2 font-medium">Acceso inmediato por un único pago de</p>
+                <div class="inline-block gold-gradient px-6 py-3 rounded-xl">
+                    <span class="text-4xl sm:text-5xl font-black text-amber-950">$5.900 ARS</span>
+                </div>
+            </div>
+
+            <p class="text-sm text-gray-400 text-center mb-4 leading-relaxed max-w-sm mx-auto">
+                Para ponerlo en perspectiva: una docena de facturas cuesta $7.800 y un kilo de helado sale $16.000. Este sistema te ahorra decenas de miles de pesos al mes.
+            </p>
+
+            <!-- Garantía Premium -->
+            <div class="glass-card rounded-2xl p-6 border border-amber-500/20 glow-amber mt-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                <h3 class="font-extrabold text-lg text-center text-white mb-3 uppercase tracking-wide">
+                    🛡️ Garantía de Hierro de 7 Días
+                </h3>
+                <p class="text-sm text-gray-400 text-center leading-relaxed">
+                    Descarga el E-book. Prueba las recetas. Si en 7 días no estás cocinando cenas deliciosas en 15 minutos exactos y limpiando todo con una sola pasada de esponja, te devuelvo el 100% de tus pesos sin ninguna pregunta. <span class="text-amber-400 font-semibold">El riesgo es todo mío.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ========== BLOQUE 5: Prueba Social ========== -->
+        <section class="px-5 py-10">
+            <h2 class="text-xl font-bold text-center text-white mb-8">
+                Lo que dicen quienes ya lo probaron
+            </h2>
+
+            <div class="space-y-4">
+                <!-- Testimonial 1 -->
+                <div class="glass-card rounded-xl p-5">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-pink-500 p-[2px]">
+                            <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white">MV</div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-white">Mamá de Valen</p>
+                            <p class="text-[10px] text-gray-600">⭐⭐⭐⭐⭐</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed italic">"Che te juro que desconecté el horno tradicional de la pared. Este recetario me resolvió las cenas de toda la semana. Las milangas de pollo salen un 10. 🙌"</p>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="glass-card rounded-xl p-5">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 p-[2px]">
+                            <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white">KF</div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-white">@keto_facil</p>
+                            <p class="text-[10px] text-gray-600">⭐⭐⭐⭐⭐</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed italic">"Haciendo la tarta del bono +500 recetas Keto 🍰 Increíble lo fácil que sale. Mi marido no podía creer que era Keto."</p>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="glass-card rounded-xl p-5">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 p-[2px]">
+                            <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white">OF</div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-white">@oficinista.fit</p>
+                            <p class="text-[10px] text-gray-600">⭐⭐⭐⭐⭐</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed italic">"Viandas para toda la semana listas en 1 hora 🥗 Usando el recetario del pack, ahorro $15K por semana en delivery."</p>
+                </div>
+            </div>
+
+            <p class="text-xs text-center text-gray-600 mt-4">
+                Testimonios reales de clientes. Identidades ocultas por privacidad.
+            </p>
+        </section>
+
+        <!-- ========== SECCIÓN FAQ — Acordeón ========== -->
+        <section class="px-5 py-10">
+            <h2 class="text-xl font-bold text-center text-white mb-8">
+                Preguntas Frecuentes
+            </h2>
+
+            <div class="space-y-3" id="faq-container">
+                <!-- FAQ 1 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                        <span class="text-sm font-semibold text-white pr-4">¿Sirve para cualquier marca de Air Fryer?</span>
+                        <svg class="faq-chevron w-4 h-4 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-400 leading-relaxed">
+                        ¡Sí! Las recetas funcionan con todas las marcas y modelos de Air Fryer del mercado argentino (Philips, Oster, Liliana, Peabody, Atma, etc.). Solo ajustás los tiempos con nuestra Tabla Maestra.
+                    </div>
+                </div>
+                <!-- FAQ 2 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                        <span class="text-sm font-semibold text-white pr-4">¿En qué formato recibo el E-book?</span>
+                        <svg class="faq-chevron w-4 h-4 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-400 leading-relaxed">
+                        Recibís un PDF optimizado para celular que podés abrir desde cualquier dispositivo. También incluye acceso a la versión web interactiva para buscar recetas rápidamente.
+                    </div>
+                </div>
+                <!-- FAQ 3 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                        <span class="text-sm font-semibold text-white pr-4">¿Las recetas tienen ingredientes caros o raros?</span>
+                        <svg class="faq-chevron w-4 h-4 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-400 leading-relaxed">
+                        No. Todo se consigue en cualquier supermercado o verdulería de barrio en Argentina. Cero insumos importados, cero dietéticas exclusivas.
+                    </div>
+                </div>
+                <!-- FAQ 4 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                        <span class="text-sm font-semibold text-white pr-4">¿Qué pasa si no me gusta? ¿Puedo pedir reembolso?</span>
+                        <svg class="faq-chevron w-4 h-4 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-400 leading-relaxed">
+                        Tenés 7 días de garantía total. Si no te convence, mandás un email y te devolvemos el 100% de tu dinero sin preguntas. Cero riesgo.
+                    </div>
+                </div>
+                <!-- FAQ 5 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between px-5 py-4 text-left">
+                        <span class="text-sm font-semibold text-white pr-4">¿Necesito saber cocinar?</span>
+                        <svg class="faq-chevron w-4 h-4 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-400 leading-relaxed">
+                        No. Las recetas están pensadas para principiantes absolutos. Cada una tiene pasos numerados, fotos y tiempos exactos. Si sabés usar un microondas, podés usar la Air Fryer.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== BLOQUE 6: Checkout Premium ========== -->
+        <section id="seccion-checkout" class="px-5 py-10 scroll-mt-6">
+
+            <h2 class="text-2xl font-extrabold text-center text-white mb-1">
+                Paso Final: Completá tu pedido
+            </h2>
+            <p class="text-xs text-center text-gray-600 mb-6 font-medium">
+                🔒 Tus datos están encriptados con seguridad bancaria.
+            </p>
+
+            <!-- Resumen del Pedido -->
+            <div class="glass-card rounded-xl p-4 mb-6 border border-amber-500/20">
+                <p class="text-sm text-white font-bold text-center">
+                    1x Sistema Definitivo Cenas en 15 Min. — <span class="gold-text">$5.900 ARS</span>
+                </p>
+            </div>
+
+            <!-- Formulario -->
+            <form class="space-y-4 mb-6" onsubmit="event.preventDefault();">
+                <div>
+                    <input type="text" id="name-input" placeholder="Nombre Completo" class="w-full min-h-[56px] px-4 border border-slate-600 bg-slate-800/60 text-white text-sm rounded-xl focus:outline-none focus:border-amber-500 placeholder-gray-500 transition-colors" required>
+                </div>
+                <div>
+                    <input type="email" id="email-input" placeholder="Correo Electrónico" class="w-full min-h-[56px] px-4 border border-slate-600 bg-slate-800/60 text-white text-sm rounded-xl focus:outline-none focus:border-amber-500 placeholder-gray-500 transition-colors" required>
+                    <p class="text-xs text-gray-600 mt-1.5 pl-1">A este correo te enviaremos el acceso instantáneo</p>
+                </div>
+            </form>
+
+            <!-- Order Bump Premium -->
+            <div class="glass-card rounded-xl p-5 mb-6 border border-amber-500/30 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-0.5 gold-gradient"></div>
+                <div class="flex items-start mb-2">
+                    <input type="checkbox" id="order-bump" class="w-5 h-5 mr-3 mt-0.5 flex-shrink-0 cursor-pointer accent-amber-500 rounded">
+                    <label for="order-bump" class="font-bold text-amber-400 text-sm leading-tight cursor-pointer select-none">
+                        ¡Sí, quiero añadir esto por solo $2.900 ARS!
+                    </label>
+                </div>
+                <p class="text-xs text-gray-500 pl-8 leading-relaxed">
+                    Llévate la Guía Visual Magnética de Tiempos y Descongelamiento Express. Normalmente cuesta $5.000, pero hoy es tuya por $2.900.
+                </p>
+            </div>
+
+            <!-- SSL Badge -->
+            <div class="flex justify-center mb-6">
+                <div class="inline-flex items-center space-x-2 border border-slate-700 bg-slate-800/40 px-3 py-1.5 rounded text-gray-500 opacity-80">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider">Secure Checkout - SSL Encrypted</span>
+                </div>
+            </div>
+
+            <!-- Contenedor MP Brick -->
+            <div id="cardPaymentBrick_container" class="mb-4"></div>
+            <div id="payment-status-message" class="hidden text-center text-sm font-bold p-3 rounded-lg mb-4"></div>
+
+            <!-- Sellos finales -->
+            <div class="flex justify-center items-center space-x-4 text-slate-600 text-sm font-bold font-mono mt-4">
+                <span>VISA</span>
+                <span>•</span>
+                <span>MASTERCARD</span>
+                <span>•</span>
+                <span>MERCADOPAGO</span>
+            </div>
+        </section>
+
+        <!-- Sticky Mobile CTA Premium -->
+        <a href="#seccion-checkout" id="sticky-cta" class="fixed bottom-0 left-0 w-full z-50 gold-gradient text-amber-950 font-extrabold py-4 px-4 text-center text-lg uppercase shadow-[0_-4px_20px_rgba(245,158,11,0.3)] transition-transform duration-300 transform translate-y-full flex items-center justify-center tracking-wide">
+            Obtener Sistema — $5.900 ARS
+        </a>
+
+    </main>
+
+    <!-- FAQ Toggle Script -->
+    <script>
+        function toggleFaq(btn) {
+            var answer = btn.nextElementSibling;
+            var chevron = btn.querySelector('.faq-chevron');
+            answer.classList.toggle('open');
+            chevron.classList.toggle('open');
+        }
+    </script>
+
+    <!-- Script del Sticky CTA -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const stickyCta = document.getElementById('sticky-cta');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) {
+                    stickyCta.classList.remove('translate-y-full');
+                } else {
+                    stickyCta.classList.add('translate-y-full');
+                }
+            });
+        });
+    </script>
+
+    <!-- Mercado Pago SDK -->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+    <!-- Firebase SDK & Capture Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Sanitización
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'name-input' || e.target.id === 'email-input') {}
+        });
+        
+        console.log("[MP_QA] Cargando con Public Key Sandbox...");
+
+        const firebaseConfig = {
+            projectId: "leads-airfryer-7b2",
+            appId: "1:608244454396:web:efc4fb2b34f67c99be1879",
+            storageBucket: "leads-airfryer-7b2.firebasestorage.app",
+            apiKey: "AIzaSyAV5dwVjvqcaQKBnJieQQ4YSla7W4CgOJ0",
+            authDomain: "leads-airfryer-7b2.firebaseapp.com",
+            messagingSenderId: "608244454396"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const nameInput = document.getElementById('name-input');
+        const emailInput = document.getElementById('email-input');
+
+        let lastCapturedEmail = '';
+
+        const validateEmail = (email) => {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        };
+
+        const captureLead = async () => {
+            const email = emailInput.value.trim();
+            const name = nameInput.value.trim();
+            if (validateEmail(email)) {
+                try {
+                    await setDoc(doc(db, "leads_ebook_airfryer", email), {
+                        email: email,
+                        nombre: name,
+                        status: 'carrito_abandonado',
+                        ab_variant: 'B_premium',
+                        timestamp: serverTimestamp()
+                    }, { merge: true });
+                    lastCapturedEmail = email;
+                    console.log('Lead capturado (Variante B - Premium).');
+                } catch (e) {
+                    console.error("Error capturando lead:", e);
+                }
+            }
+        };
+
+        emailInput.addEventListener('blur', captureLead);
+        nameInput.addEventListener('blur', captureLead);
+
+        // --- MERCADO PAGO ---
+        const mp = new MercadoPago('TEST-cad87ea5-fcbf-4c87-abce-00138060b3ff', {
+            locale: 'auto'
+        });
+
+        const bricksBuilder = mp.bricks();
+        let currentAmount = 5900;
+        let cardPaymentBrickController;
+
+        const renderCardPaymentBrick = async (bricksBuilder) => {
+            const settings = {
+                initialization: {
+                    amount: currentAmount, 
+                },
+                customization: {
+                    visual: {
+                        style: {
+                            theme: 'dark'
+                        }
+                    },
+                    paymentMethods: {
+                        maxInstallments: 3
+                    }
+                },
+                callbacks: {
+                    onReady: () => {
+                        console.log('Brick de Mercado Pago listo (Variante B).');
+                    },
+                    onSubmit: (cardFormData) => {
+                        return new Promise((resolve, reject) => {
+                            const email = emailInput.value.trim();
+                            const name = nameInput.value.trim();
+                            const statusMsg = document.getElementById('payment-status-message');
+
+                            if (!validateEmail(email) || !name) {
+                                statusMsg.classList.remove('hidden');
+                                statusMsg.classList.add('bg-red-500/20', 'text-red-300', 'border', 'border-red-500/30');
+                                statusMsg.innerHTML = `⚠️ <span class="ml-1">Por favor, completa tu <b>Nombre</b> y <b>Email</b> correctamente antes de pagar.</span>`;
+                                nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                nameInput.classList.add('border-red-500');
+                                emailInput.classList.add('border-red-500');
+                                setTimeout(() => {
+                                    nameInput.classList.remove('border-red-500');
+                                    emailInput.classList.remove('border-red-500');
+                                }, 3000);
+                                reject();
+                                return;
+                            }
+
+                            statusMsg.classList.add('hidden');
+
+                            setDoc(doc(db, "leads_ebook_airfryer", email), {
+                                nombre: name,
+                                status: 'intentando_pago',
+                                ab_variant: 'B_premium',
+                                last_action: serverTimestamp()
+                            }, { merge: true });
+
+                            fetch('https://us-central1-leads-airfryer-7b2.cloudfunctions.net/procesarPago', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    token: cardFormData.token,
+                                    issuerId: cardFormData.issuer_id,
+                                    paymentMethodId: cardFormData.payment_method_id,
+                                    transactionAmount: currentAmount,
+                                    installments: cardFormData.installments,
+                                    email: email,
+                                    description: currentAmount === 5900 ? 'Pack Máster Air Fryer' : 'Pack Máster Air Fryer + Guía Congelado'
+                                }),
+                            })
+                            .then(async (response) => {
+                                const data = await response.json();
+                                if (!response.ok) throw new Error(data.detail || data.error || "Error en el servidor");
+                                return data;
+                            })
+                            .then((response) => {
+                                resolve();
+                                if (response.status === 'approved' || response.status === 'in_process') {
+                                    localStorage.setItem('userEmail', email);
+                                    window.location.href = 'upsell.html';
+                                } else {
+                                    throw new Error(`Estado: ${response.status}. Detalle: ${response.status_detail || 'N/A'}`);
+                                }
+                            })
+                            .catch((error) => {
+                                resolve();
+                                console.error("[MP_QA_ERROR] Error en el flujo de pago:", error);
+                                const statusMsg = document.getElementById('payment-status-message');
+                                statusMsg.classList.remove('hidden');
+                                statusMsg.classList.add('bg-red-500/10', 'text-red-400', 'border', 'border-red-500/20');
+                                
+                                let userFriendlyMsg = "Error: El pago fue rechazado. Revisa tus datos e intenta de nuevo.";
+                                if (error.message.includes("forbidden") || error.message.includes("users involved")) {
+                                    userFriendlyMsg = "⚠️ Error de Sandbox: Conflicto de cuentas.";
+                                } else if (error.message.includes("format")) {
+                                    userFriendlyMsg = "⚠️ Error de Formato: Número de tarjeta no válido.";
+                                }
+                                
+                                statusMsg.innerHTML = `<p class="font-bold">Error en el Pago</p><p class="text-xs font-mono uppercase opacity-80">${error.message}</p><p class="mt-2">${userFriendlyMsg}</p>`;
+                            });
+                        });
+                    },
+                    onError: (error) => {
+                        console.error("Error en Brick MP:", error);
+                    }
+                }
+            };
+            
+            if (cardPaymentBrickController) cardPaymentBrickController.unmount();
+            cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
+        };
+
+        renderCardPaymentBrick(bricksBuilder);
+
+        document.getElementById('order-bump').addEventListener('change', (e) => {
+            currentAmount = e.target.checked ? 8800 : 5900;
+            renderCardPaymentBrick(bricksBuilder);
+        });
+
+    </script>
+</body>
+</html>
