@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA - Test de Pago Directo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+    <div class="max-w-lg w-full bg-gray-800 rounded-2xl p-8 shadow-2xl">
+        <h1 class="text-2xl font-bold text-center mb-2">🧪 QA - Test de Pago Directo</h1>
+        <p class="text-gray-400 text-center text-sm mb-6">Este formulario usa campos nativos para evitar problemas de iframe.</p>
+
+        <form id="testPaymentForm" class="space-y-4">
+            <div>
+                <label class="block text-sm text-gray-300 mb-1">Número de Tarjeta</label>
+                <input type="text" id="cardNumber" value="4509953588233704" 
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white text-lg font-mono focus:border-blue-500 focus:outline-none"
+                       maxlength="19" placeholder="4509 9535 8823 3704">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">Vencimiento (MM)</label>
+                    <input type="text" id="expMonth" value="11" 
+                           class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white font-mono focus:border-blue-500 focus:outline-none"
+                           maxlength="2">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">Año (YYYY)</label>
+                    <input type="text" id="expYear" value="2030" 
+                           class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white font-mono focus:border-blue-500 focus:outline-none"
+                           maxlength="4">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">CVV</label>
+                    <input type="text" id="securityCode" value="123" 
+                           class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white font-mono focus:border-blue-500 focus:outline-none"
+                           maxlength="4">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-300 mb-1">DNI</label>
+                    <input type="text" id="docNumber" value="12345678" 
+                           class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white font-mono focus:border-blue-500 focus:outline-none"
+                           maxlength="10">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-300 mb-1">Nombre del Titular</label>
+                <input type="text" id="cardholderName" value="APRO" 
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-sm text-gray-300 mb-1">Email</label>
+                <input type="email" id="email" value="qa_test_aprobado@mailinator.com" 
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-blue-500 focus:outline-none">
+            </div>
+
+            <button type="submit" id="payBtn"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg text-lg transition-colors">
+                🔒 Simular Pago de Prueba ($5.900)
+            </button>
+        </form>
+
+        <div id="logContainer" class="mt-6 bg-black rounded-lg p-4 text-xs font-mono text-green-400 max-h-80 overflow-y-auto hidden">
+            <p class="text-gray-500 mb-2">--- Log de Ejecución ---</p>
+        </div>
+    </div>
+
+    <script>
+        const mp = new MercadoPago('TEST-cad87ea5-fcbf-4c87-abce-00138060b3ff');
+        const logContainer = document.getElementById('logContainer');
+
+        function log(msg, type = 'info') {
+            logContainer.classList.remove('hidden');
+            const colors = { info: 'text-green-400', error: 'text-red-400', warn: 'text-yellow-400', success: 'text-cyan-400' };
+            const p = document.createElement('p');
+            p.className = colors[type] || 'text-green-400';
+            p.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logContainer.appendChild(p);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        document.getElementById('testPaymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('payBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Procesando...';
+
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const expMonth = document.getElementById('expMonth').value;
+            const expYear = document.getElementById('expYear').value;
+            const securityCode = document.getElementById('securityCode').value;
+            const cardholderName = document.getElementById('cardholderName').value;
+            const docNumber = document.getElementById('docNumber').value;
+            const email = document.getElementById('email').value;
+
+            log(`Datos de tarjeta: ${cardNumber.slice(0,4)}...${cardNumber.slice(-4)}`);
+            log(`Titular: ${cardholderName} | DNI: ${docNumber}`);
+
+            try {
+                // Paso 1: Crear Token con la API de Mercado Pago
+                log('Paso 1: Creando token con Mercado Pago...');
+
+                const tokenResponse = await fetch('https://api.mercadopago.com/v1/card_tokens?public_key=TEST-cad87ea5-fcbf-4c87-abce-00138060b3ff', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        card_number: cardNumber,
+                        expiration_month: parseInt(expMonth),
+                        expiration_year: parseInt(expYear),
+                        security_code: securityCode,
+                        cardholder: {
+                            name: cardholderName,
+                            identification: {
+                                type: 'DNI',
+                                number: docNumber
+                            }
+                        }
+                    })
+                });
+
+                const tokenData = await tokenResponse.json();
+
+                if (tokenData.id) {
+                    log(`✅ Token creado: ${tokenData.id}`, 'success');
+                    log(`   Últimos 4: ${tokenData.last_four_digits} | Vence: ${tokenData.expiration_month}/${tokenData.expiration_year}`);
+                } else {
+                    log(`❌ Error creando token: ${JSON.stringify(tokenData)}`, 'error');
+                    btn.disabled = false;
+                    btn.textContent = '🔒 Simular Pago de Prueba ($5.900)';
+                    return;
+                }
+
+                // Paso 2: Enviar al backend (Cloud Function)
+                log('Paso 2: Enviando a procesarPago Cloud Function...');
+                
+                const paymentResponse = await fetch('https://us-central1-leads-airfryer-7b2.cloudfunctions.net/procesarPago', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        token: tokenData.id,
+                        issuerId: tokenData.issuer?.id || '',
+                        paymentMethodId: tokenData.card_number_length === 16 ? 'visa' : 'master',
+                        transactionAmount: 5900,
+                        installments: 1,
+                        email: email,
+                        description: 'Pack Máster Air Fryer'
+                    })
+                });
+
+                const paymentResult = await paymentResponse.json();
+                
+                log(`Respuesta del backend: ${JSON.stringify(paymentResult, null, 2)}`);
+
+                if (paymentResult.status === 'approved') {
+                    log('🎉 ¡PAGO APROBADO! El flujo completo funciona.', 'success');
+                    log(`   ID de Pago: ${paymentResult.id}`, 'success');
+                    btn.textContent = '✅ Pago Aprobado';
+                    btn.className = 'w-full bg-green-600 text-white font-bold py-4 rounded-lg text-lg';
+                } else if (paymentResult.status === 'in_process') {
+                    log('⏳ Pago en proceso (pendiente de confirmación).', 'warn');
+                    btn.textContent = '⏳ En Proceso';
+                    btn.className = 'w-full bg-yellow-600 text-white font-bold py-4 rounded-lg text-lg';
+                } else {
+                    log(`⚠️ Status: ${paymentResult.status} | Detalle: ${paymentResult.status_detail || 'N/A'}`, 'warn');
+                    btn.textContent = `Status: ${paymentResult.status}`;
+                    btn.className = 'w-full bg-yellow-600 text-white font-bold py-4 rounded-lg text-lg';
+                }
+
+            } catch (err) {
+                log(`❌ Error de red: ${err.message}`, 'error');
+                btn.disabled = false;
+                btn.textContent = '🔒 Reintentar';
+            }
+        });
+    </script>
+</body>
+</html>
