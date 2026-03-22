@@ -137,24 +137,31 @@ exports.procesarPago = onRequest({ cors: true, secrets: [mpAccessToken] }, async
     if (!token || !transactionAmount || !email) return res.status(400).json({ error: "Faltan datos." });
 
     try {
-        const client = new MercadoPagoConfig({ accessToken: mpAccessToken.value() });
+        console.log(`[MP_QA] procesarPago - Recibido token: ${token}, monto: ${transactionAmount}, email: ${email}, method: ${paymentMethodId}, issuer: ${issuerId}`);
+        const client = new MercadoPagoConfig({ accessToken: mpAccessToken.value().trim() });
         const payment = new Payment(client);
-        const paymentData = await payment.create({
-            body: {
-                transaction_amount: Number(transactionAmount),
-                token: token,
-                description: description || 'Pack Máster Air Fryer',
-                installments: Number(installments) || 1,
-                payment_method_id: paymentMethodId,
-                issuer_id: issuerId,
-                payer: { email: email }
-            }
-        });
-        console.log(`[MP_QA] procesarPago ejecutado - ID de pago generado: ${paymentData.id} para ${email}`);
-        res.status(200).json({ status: paymentData.status, id: paymentData.id });
+
+        // Construir body dinámicamente, omitiendo campos vacíos para evitar errores de API
+        const paymentBody = {
+            transaction_amount: Number(transactionAmount),
+            token: token,
+            description: description || 'Pack Máster Air Fryer',
+            installments: Number(installments) || 1,
+            payer: { email: email }
+        };
+
+        // Solo agregar si existen (la API falla con valores vacíos)
+        if (paymentMethodId) paymentBody.payment_method_id = paymentMethodId;
+        if (issuerId) paymentBody.issuer_id = String(issuerId);
+
+        console.log(`[MP_QA] Enviando a MP API:`, JSON.stringify(paymentBody));
+        const paymentData = await payment.create({ body: paymentBody });
+        console.log(`[MP_QA] procesarPago EXITOSO - ID: ${paymentData.id}, Status: ${paymentData.status}, Detalle: ${paymentData.status_detail} para ${email}`);
+        res.status(200).json({ status: paymentData.status, id: paymentData.id, status_detail: paymentData.status_detail });
     } catch (error) {
-        console.error("[MP_QA_ERROR] Pago fallido:", error);
-        res.status(500).json({ error: "No se pudo procesar el pago." });
+        console.error("[MP_QA_ERROR] Pago fallido:", error.message || error);
+        if (error.cause) console.error("[MP_QA_ERROR] Causa:", JSON.stringify(error.cause));
+        res.status(500).json({ error: "No se pudo procesar el pago.", detail: error.message || 'Unknown error' });
     }
 });
 
@@ -182,7 +189,7 @@ exports.webhookMercadoPago = onRequest({ secrets: [mpWebhookSecret, mpAccessToke
 
         const dataID = req.body.data ? req.body.data.id : req.query['data.id'];
         const manifest = `id:${dataID};request-id:${xRequestId};ts:${ts};`;
-        const hmac = crypto.createHmac('sha256', mpWebhookSecret.value());
+        const hmac = crypto.createHmac('sha256', mpWebhookSecret.value().trim());
         hmac.update(manifest);
         
         if (hmac.digest('hex') !== v1) {
@@ -193,7 +200,7 @@ exports.webhookMercadoPago = onRequest({ secrets: [mpWebhookSecret, mpAccessToke
         console.log(`[MP_QA] Firma validada OK. Tipo de evento: ${req.body.type}, Data ID: ${dataID}`);
 
         if (req.body.type === 'payment') {
-            const paymentDetails = await new Payment(new MercadoPagoConfig({ accessToken: mpAccessToken.value() })).get({ id: dataID });
+            const paymentDetails = await new Payment(new MercadoPagoConfig({ accessToken: mpAccessToken.value().trim() })).get({ id: dataID });
             
             console.log(`[MP_QA] Detalles del pago ID ${dataID} - Estado: ${paymentDetails.status}, Monto: ${paymentDetails.transaction_amount}`);
 
