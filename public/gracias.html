@@ -6,6 +6,30 @@
     <title>Tu Dashboard - Accesos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '935552235802952'); // Píxel Real: tickarg
+    const paymentId = localStorage.getItem('lastPaymentId') || undefined;
+    fbq('track', 'Purchase', {value: 5900, currency: 'ARS'}, {eventID: paymentId});
+    </script>
+
+    <!-- Microsoft Clarity (Heatmaps) -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "w01u1f1n5e");
+    </script>
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
@@ -34,57 +58,66 @@
                 <span class="w-2 h-6 bg-green-500 rounded-full mr-2"></span> Tu Sistema Air Fryer
             </h2>
             
-            <div class="space-y-3">
+            <div class="space-y-3" id="main-product-container">
                 <!-- Item 1 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
                     <span class="font-semibold text-gray-800 text-sm w-2/3">365 Recetas Air Fryer Sin Aceite</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                    <a href="descargas/365_Recetas_AirFryer.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline">
                         📥 Descargar PDF
-                    </button>
+                    </a>
                 </div>
                 <!-- Item 2 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
                     <span class="font-semibold text-gray-800 text-sm w-2/3">180 Recetas de Almuerzos y Cenas</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                    <a href="descargas/180_Almuerzos_Cenas_AirFryer.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline">
                         📥 Descargar PDF
-                    </button>
+                    </a>
                 </div>
                 <!-- Item 3 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
                     <span class="font-semibold text-gray-800 text-sm w-2/3">120 Recetas Para Comer Mejor</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                    <a href="descargas/120_Recetas_Comer_Mejor.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline">
                         📥 Descargar PDF
-                    </button>
+                    </a>
                 </div>
-                <!-- Item 4 -->
+                <!-- Item 4 (Split) -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
-                    <span class="font-semibold text-gray-800 text-sm w-2/3">40 Saludables & 40 Para Familia</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
-                        📥 Descargar PDF
-                    </button>
+                    <span class="font-semibold text-gray-800 text-sm w-1/2">40 Recetas Familia & Saludables</span>
+                    <div class="flex gap-2">
+                        <a href="descargas/40_Recetas_Familia.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline whitespace-nowrap">
+                            📥 Familia
+                        </a>
+                        <a href="descargas/40_Recetas_Saludables.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline whitespace-nowrap">
+                            📥 Saludables
+                        </a>
+                    </div>
                 </div>
+
+
                 <!-- Item 5 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
                     <span class="font-semibold text-gray-800 text-sm w-2/3">20 Recetas Bajas en Carbohidratos</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                    <a href="descargas/20_Bajas_Carbohidratos.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline">
                         📥 Descargar PDF
-                    </button>
+                    </a>
                 </div>
                 <!-- Item 6 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
                     <span class="font-semibold text-gray-800 text-sm w-2/3">Panadería con tu Air Fryer</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                    <a href="descargas/Panaderia_AirFryer.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline">
                         📥 Descargar PDF
-                    </button>
+                    </a>
                 </div>
                 <!-- Item 7 -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
                     <span class="font-semibold text-gray-800 text-sm w-2/3">Guía: ¡Imprimir tus recetas es fácil!</span>
-                    <button class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors">
+                    <a href="descargas/Guia_Imprimir_Recetas.pdf" target="_blank" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline">
                         📥 Descargar Guía
-                    </button>
+                    </a>
                 </div>
+
             </div>
+
         </section>
 
         <!-- SECCIÓN 2: BONOS Y MEJORAS (DINÁMICO) -->
@@ -101,32 +134,49 @@
                     <div class="text-6xl mb-2 drop-shadow-md">🔒</div>
                     <p class="font-bold text-gray-800 text-center px-4">Acceso Bloqueado</p>
                 </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
+                    <span class="font-semibold text-gray-800 text-sm w-1/3">Keto & Diabéticos</span>
+                    <div class="flex gap-2">
+                        <a href="descargas/500_Recetas_Keto.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 px-2 rounded-lg flex items-center transition-colors no-underline download-btn whitespace-nowrap">
+                            📥 Keto
+                        </a>
+                        <a href="descargas/100_Recetas_Diabeticos.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 px-2 rounded-lg flex items-center transition-colors no-underline download-btn whitespace-nowrap">
+                            📥 Diabéticos
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
+                    <span class="font-semibold text-gray-800 text-sm w-1/3">Viandas & Keto Fit</span>
+                    <div class="flex gap-2">
+                        <a href="descargas/Viandas_Trabajo_MealPrep.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 px-2 rounded-lg flex items-center transition-colors no-underline download-btn whitespace-nowrap">
+                            📥 Viandas
+                        </a>
+                        <a href="descargas/100_Recetas_Keto_Fit.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 px-2 rounded-lg flex items-center transition-colors no-underline download-btn whitespace-nowrap">
+                            📥 Fit
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
+                    <span class="font-semibold text-gray-800 text-sm w-1/3">Congelado & Vegetariano</span>
+                    <div class="flex gap-2">
+                        <a href="descargas/Conservacion_Alimentos.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 px-2 rounded-lg flex items-center transition-colors no-underline download-btn whitespace-nowrap">
+                            📥 Congelado
+                        </a>
+                        <a href="descargas/200_Recetas_Vegetarianas.pdf" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold py-2 px-2 rounded-lg flex items-center transition-colors no-underline download-btn whitespace-nowrap">
+                            📥 Vegetas
+                        </a>
+                    </div>
+                </div>
 
-                <!-- Items de Bonos -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
-                    <span class="font-semibold text-gray-800 text-sm w-2/3">+500 Recetas Keto & 100 Keto Fit</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg download-btn transition-colors">
-                        📥 Descargar
-                    </button>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
-                    <span class="font-semibold text-gray-800 text-sm w-2/3">200 Recetas Vegetarianas & Viandas</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg download-btn transition-colors">
-                        📥 Descargar
-                    </button>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
-                    <span class="font-semibold text-gray-800 text-sm w-2/3">Postres Saludables & 30 Untables</span>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg download-btn transition-colors">
-                        📥 Descargar
-                    </button>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center bonus-item">
-                    <span class="font-semibold text-gray-800 text-sm w-2/3">Guía "Activa tu Metabolismo"</span>
-                    <button class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded-lg download-btn transition-colors">
-                        📥 Descargar
-                    </button>
-                </div>
+                    <span class="font-semibold text-gray-800 text-sm w-2/3">Recetario Saludable de Postres</span>
+                    <a href="descargas/Postres_Saludables_Keto.pdf" target="_blank" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center transition-colors no-underline download-btn">
+                        📥 Descargar Postres
+                    </a>
+
+            </div>
+
+
             </div>
 
             <!-- CTA de Última Oportunidad (Se muestra si está bloqueado) -->
@@ -142,21 +192,12 @@
 
     </main>
 
-    <!-- QA DEBUG PANEL FLOTANTE -->
-    <div id="qaPanel" class="fixed bottom-4 right-4 bg-gray-900 border border-gray-700 text-white p-4 rounded-xl shadow-2xl z-50 w-64 opacity-30 hover:opacity-100 transition-opacity">
-        <h4 class="font-black text-sm mb-2 text-yellow-500 uppercase flex items-center"><span class="mr-1">🛠️</span> QA Test Panel</h4>
-        <input type="email" id="qaEmail" placeholder="Email de prueba" class="w-full text-black px-3 py-2 text-xs rounded-lg mb-3 outline-none" value="test_candado@ejemplo.com">
-        <div class="space-y-2">
-            <button onclick="window.forceQAStatus(false)" class="w-full text-left hover:bg-gray-700 px-2 py-1.5 rounded text-xs transition-colors">✅ Simular Compra Normal</button>
-            <button onclick="window.forceQAStatus(true)" class="w-full text-left hover:bg-gray-700 px-2 py-1.5 rounded text-xs transition-colors text-yellow-400 font-bold">🔥 Simular Compra + Upsell</button>
-            <button onclick="localStorage.removeItem('userEmail'); location.reload();" class="w-full text-left hover:bg-red-900 px-2 py-1.5 rounded text-xs transition-colors text-red-400 mt-2 border-t border-gray-700 pt-2">❌ Resetear Estado Local</button>
-        </div>
-    </div>
+
 
     <!-- Firebase SDK Lógica Dinámica -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             projectId: "leads-airfryer-7b2",
@@ -176,20 +217,17 @@
         const unlockCta = document.getElementById('unlock-cta');
         const btnUnlockNow = document.getElementById('btn-unlock-now');
         const paymentSpinner = document.getElementById('payment-spinner');
-        const downloadBtns = document.querySelectorAll('.download-btn');
+        const bonusItems = document.querySelectorAll('.bonus-item');
+        const downloadLinks = document.querySelectorAll('.download-btn');
 
-        // Simulador: Leemos el email del usuario de localStorage (Si no hay, usamos uno de prueba temporal)
+
+        // Leemos el email del usuario de localStorage
         let currentUserEmail = localStorage.getItem('userEmail');
-        
-        // --- MODO DE PRUEBA (Para el Subagente de Navegación) ---
-        // Forzamos un email simulado que NO tiene el upsell comprado para ver el diseño del candado
-        if (!currentUserEmail) {
-            currentUserEmail = 'test_candado@ejemplo.com'; 
-            localStorage.setItem('userEmail', currentUserEmail);
-        }
 
         const fetchUserState = async () => {
-            if (!currentUserEmail) return;
+            if (!currentUserEmail) {
+                return lockBonusesUI();
+            }
 
             try {
                 const docRef = doc(db, "leads_ebook_airfryer", currentUserEmail);
@@ -222,94 +260,96 @@
             lockOverlay.classList.remove('hidden');
             unlockCta.classList.remove('hidden');
             
-            // Cambiar botones a grises para reforzar visualmente el bloqueo
-            downloadBtns.forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'bg-green-600');
-                btn.classList.add('bg-gray-400');
+            // Cambiar enlaces a grises para reforzar visualmente el bloqueo
+            downloadLinks.forEach(link => {
+                link.classList.remove('bg-blue-600', 'bg-green-600');
+                link.classList.add('bg-gray-400');
             });
         };
+
+
+        // --- Lógica de Descarga Removida (Ahora se usa href directo) ---
+
 
         const unlockBonusesUI = () => {
             bonusesContainer.classList.remove('opacity-50', 'pointer-events-none', 'select-none');
             lockOverlay.classList.add('hidden');
             unlockCta.classList.add('hidden');
             
-            // Restaurar botones a colores activos
-            downloadBtns.forEach(btn => {
-                btn.classList.remove('bg-gray-400');
-                if(btn.innerText.includes('Guía')) {
-                    btn.classList.add('bg-green-600');
+            // Restaurar enlaces a colores activos
+            downloadLinks.forEach(link => {
+                link.classList.remove('bg-gray-400');
+                if(link.innerText.includes('Postres')) {
+                    link.classList.add('bg-green-600');
                 } else {
-                    btn.classList.add('bg-blue-600');
+                    link.classList.add('bg-blue-600');
                 }
             });
+
+            
+            // Píxel Meta: Track Purchase de Upsell
+            if (!sessionStorage.getItem('fbq_upsell_tracked')) {
+                fbq('track', 'Purchase', {value: 14900, currency: 'ARS'});
+                sessionStorage.setItem('fbq_upsell_tracked', 'true');
+            }
         };
 
-        // Lógica de compra "One-Click"
+        // Lógica de compra "Checkout Pro"
         btnUnlockNow.addEventListener('click', async () => {
             // UI Feedback
             btnUnlockNow.disabled = true;
             btnUnlockNow.classList.add('opacity-50');
             paymentSpinner.classList.remove('hidden');
 
-            try {
-                // Simular delay de pasarela de pago (1.5s)
-                await new Promise(r => setTimeout(r, 1500)); 
-
-                // Actualizar Firestore
-                const docRef = doc(db, "leads_ebook_airfryer", currentUserEmail);
-                await updateDoc(docRef, {
-                    comprado_upsell: true,
-                    status: 'comprado_vip' // Opcional, actualizar status global
-                });
-
-                // Desbloquear UI en tiempo real
-                unlockBonusesUI();
-                
-            } catch (error) {
-                console.error("Error en pago:", error);
-                alert("Hubo un problema procesando tu pago. Inténtalo de nuevo.");
-            } finally {
+            if (!currentUserEmail) { 
+                alert("Error de sesión. Ocurrió un problema de conectividad."); 
                 btnUnlockNow.disabled = false;
                 btnUnlockNow.classList.remove('opacity-50');
                 paymentSpinner.classList.add('hidden');
+                return; 
+            }
+
+            try {
+                paymentSpinner.innerText = "Generando link seguro...";
+                const response = await fetch('https://us-central1-leads-airfryer-7b2.cloudfunctions.net/crearPreferencia', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: 'Desbloqueo de Biblioteca Salud y Postres',
+                        price: 7900,
+                        email: currentUserEmail,
+                        successUrl: window.location.origin + '/gracias.html'
+                    })
+                });
+
+                const data = await response.json();
+                if (data.sandbox_init_point) {
+                    window.location.href = data.sandbox_init_point;
+                } else {
+                    throw new Error("No se pudo obtener el link de pago.");
+                }
+                
+            } catch (error) {
+                console.error("Error en generación de Checkout:", error);
+                alert("Hubo un problema contactando a Mercado Pago. Inténtalo de nuevo.");
+                btnUnlockNow.disabled = false;
+                btnUnlockNow.classList.remove('opacity-50');
+                paymentSpinner.classList.add('hidden');
+                paymentSpinner.innerText = "Procesando pago seguro...";
             }
         });
 
         // Inicializar
         fetchUserState();
 
-        // --- QA PANEL: FORCING STATUS FOR E2E TESTING ---
-        window.forceQAStatus = async (simulateUpsell) => {
-            const emailToForce = document.getElementById('qaEmail').value || currentUserEmail;
-            console.log(`[QA] Forzando estado. Email: ${emailToForce}, Upsell: ${simulateUpsell}`);
-            
-            try {
-                // Notificando que estamos procesando en QA
-                const qaInput = document.getElementById('qaEmail');
-                qaInput.value = "⏳ Forzando...";
-                
-                const docRef = doc(db, "leads_ebook_airfryer", emailToForce);
-                await updateDoc(docRef, {
-                    comprado_upsell: simulateUpsell,
-                    status: simulateUpsell ? 'pago_completado_upsell' : 'pago_completado_principal'
-                });
-                
-                // Restaurar el email en el input y guardar en local storage
-                qaInput.value = emailToForce;
-                localStorage.setItem('userEmail', emailToForce);
-                currentUserEmail = emailToForce;
-                
-                // Forzar recarga de UI simulando lo que pasaría si llegaran desde otra vista
-                fetchUserState();
-                console.log(`[QA] Éxito. Estado forzado a Upsell: ${simulateUpsell}`);
-            } catch (e) {
-                console.error("[QA] Error al forzar estado:", e);
-                alert("QA Panel Error: Verifica tu consola y conexión. ¿El lead existe en Firebase? Primero genera el lead haciendo submit en la landing page.");
-                document.getElementById('qaEmail').value = emailToForce;
-            }
-        };
+
 
     </script>
+    <!-- Footer -->
+    <footer class="mt-12 pb-16 text-center border-t border-white/5 pt-8">
+        <p class="text-slate-600 text-[9px] uppercase tracking-widest font-bold">© 2026 Máster Air Fryer - Todos los derechos reservados</p>
+        <a href="admin.html" class="text-[9px] text-slate-800 hover:text-slate-500 mt-2 inline-block transition-colors italic">Acceso Administrador</a>
+    </footer>
+
 </body>
 </html>

@@ -1,8 +1,15 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /leads_ebook_airfryer/{document=**} {
-      allow read, write: if true; // Temporary open rules for direct capture
+    // Permitir a usuarios anónimos registrar su intención de compra
+    match /leads_ebook_airfryer/{email} {
+      allow write: if true;
+      allow read: if request.auth != null && request.auth.token.email == 'veo3juan@gmail.com';
+    }
+    
+    // Permitir acceso total solo al administrador verificado
+    match /{document=**} {
+      allow read, write: if request.auth != null && (request.auth.token.email == 'veo3juan@gmail.com' || request.auth.token.email == 'juan.cuesta.viloch@gmail.com');
     }
   }
 }

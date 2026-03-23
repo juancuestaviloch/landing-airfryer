@@ -9,6 +9,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '935552235802952'); // Píxel Real: tickarg
+    fbq('track', 'PageView');
+    fbq('track', 'ViewContent');
+    </script>
+    
+    <!-- Microsoft Clarity (Heatmaps) -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "w01u1f1n5e");
+    </script>
     <style>
         body {
             font-family: 'Inter', Arial, sans-serif;
@@ -66,7 +89,8 @@
 <body class="bg-gray-100 min-h-screen text-gray-900">
 
     <!-- Contenedor principal 'Mobile-First', Infinito -->
-    <main class="w-full max-w-[500px] mx-auto bg-white min-h-screen pb-12 pt-6 px-4 md:px-5 shadow-2xl overflow-hidden">
+    <main class="w-full max-w-[500px] mx-auto bg-white min-h-screen pb-12 pt-6 px-4 md:px-5 shadow-none border-x border-gray-200 overflow-hidden">
+
         
         <!-- Pre-header -->
         <p class="text-sm text-center text-gray-700 font-semibold mb-4 px-2">
@@ -79,9 +103,10 @@
         </h1>
 
         <!-- Imagen Hero (Comida Apetitosa) -->
-        <div class="w-full aspect-[9/16] bg-gray-100 flex items-center justify-center mb-2 overflow-hidden relative rounded-lg">
+        <div class="w-full aspect-[9/16] bg-gray-100 flex items-center justify-center mb-2 overflow-hidden relative">
             <img src="hero-food.png" alt="Milanesas crujientes, papas doradas y vegetales frescos recién hechos en Air Fryer" class="w-full h-full object-cover">
         </div>
+
 
         <!-- Call to Action (Thumb-Zone) -->
         <a href="#seccion-checkout" class="mt-6 w-full min-h-[60px] bg-green-600 hover:bg-green-700 text-white text-xl sm:text-2xl font-black py-4 px-4 rounded-lg uppercase leading-tight shadow-md active:scale-[0.98] transition-transform flex items-center justify-center text-center">
@@ -429,7 +454,8 @@
                         email: email,
                         nombre: name,
                         status: 'carrito_abandonado',
-                        timestamp: serverTimestamp()
+                        timestamp: serverTimestamp(),
+                        last_interaction: serverTimestamp()
                     }, { merge: true });
                     lastCapturedEmail = email;
                     console.log('Lead capturado (nombre + email).');
@@ -444,9 +470,9 @@
 
         // --- MERCADO PAGO INTEGRACIÓN ---
         
-        // Inicializar Mercado Pago con tu Public Key de PRUEBA
-        const mp = new MercadoPago('TEST-cad87ea5-fcbf-4c87-abce-00138060b3ff', {
-            locale: 'auto'
+        // Inicializar Mercado Pago con tu Public Key de PRODUCCIÓN
+        const mp = new MercadoPago('APP_USR-82eb3e1d-280c-4951-a624-41b5abac4335', {
+            locale: 'es-AR'
         });
 
         const bricksBuilder = mp.bricks();
@@ -474,9 +500,11 @@
                     },
                     onSubmit: (cardFormData) => {
                         return new Promise((resolve, reject) => {
-                            const email = emailInput.value.trim();
-                            const name = nameInput.value.trim();
+                            // Sanitización 'Fricción Cero': Quitamos espacios extra para evitar errores de MP
+                            const email = emailInput.value.trim().toLowerCase();
+                            const name = nameInput.value.trim().replace(/\s\s+/g, ' '); 
                             const statusMsg = document.getElementById('payment-status-message');
+
 
                             if (!validateEmail(email) || !name) {
                                 // Feedback visual de error
@@ -501,11 +529,34 @@
                             // Limpiar mensaje previo si existe
                             statusMsg.classList.add('hidden');
 
-                            // 1. Marcar intento de pago en Firestore
+                            // --- TRACKING AVANZADO META ---
+                            const getCookie = (name) => {
+                                const value = `; ${document.cookie}`;
+                                const parts = value.split(`; ${name}=`);
+                                if (parts.length === 2) return parts.pop().split(';').shift();
+                            };
+                            const fbp = getCookie('_fbp') || '';
+                            const fbc = getCookie('_fbc') || '';
+                            const eventId = 'ic_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+                            // Trigger InitiateCheckout REAL al intentar pagar
+                            fbq('track', 'InitiateCheckout', { 
+                                value: currentAmount, 
+                                currency: 'ARS',
+                                content_name: 'Pack Máster Air Fryer',
+                                content_category: 'E-book'
+                            }, { eventID: eventId });
+
+                            // 1. Marcar intento de pago en Firestore + Identificadores de Tracking
                             setDoc(doc(db, "leads_ebook_airfryer", email), {
                                 nombre: name,
                                 status: 'intentando_pago',
-                                last_action: serverTimestamp()
+                                last_action: serverTimestamp(),
+                                last_interaction: serverTimestamp(),
+                                fbp: fbp,
+                                fbc: fbc,
+                                client_ua: navigator.userAgent,
+                                event_id_checkout: eventId 
                             }, { merge: true });
 
                             console.log("[MP_QA] Iniciando procesarPago con token:", cardFormData.token);
@@ -523,7 +574,9 @@
                                     transactionAmount: currentAmount,
                                     installments: cardFormData.installments,
                                     email: email,
-                                    description: currentAmount === 5900 ? 'Pack Máster Air Fryer' : 'Pack Máster Air Fryer + Guía Congelado'
+                                    description: currentAmount === 5900 ? 'Pack Máster Air Fryer' : 'Pack Máster Air Fryer + Guía Congelado',
+                                    fbp: fbp,
+                                    fbc: fbc
                                 }),
                             })
                             .then(async (response) => {
@@ -535,6 +588,7 @@
                                 resolve();
                                 if (response.status === 'approved' || response.status === 'in_process') {
                                     localStorage.setItem('userEmail', email);
+                                    localStorage.setItem('lastPaymentId', response.id); // Guardar ID para deduplicación Meta
                                     window.location.href = 'upsell.html';
                                 } else {
                                     throw new Error(`Estado: ${response.status}. Detalle: ${response.status_detail || 'N/A'}`);
@@ -577,6 +631,9 @@
             currentAmount = e.target.checked ? 8800 : 5900;
             // Rerenderizar Brick con nuevo precio
             renderCardPaymentBrick(bricksBuilder);
+            sessionStorage.removeItem('fbq_ic'); // Al cambiar, permitimos otro InitiateCheckout opcionalmente o re-trackeo
+            fbq('track', 'InitiateCheckout', { value: currentAmount, currency: 'ARS' });
+            sessionStorage.setItem('fbq_ic', 'true');
         });
 
     </script>
@@ -595,34 +652,30 @@
             {
                 user: '@mama_sin_tiempo',
                 initials: 'MS',
-                gradient: 'linear-gradient(135deg, #1a1a2e, #16213e)',
+                image: 'story-milanesas.png',
                 sticker: 'Chau delivery \uD83D\uDC4B 15 min en la Air Fryer literal',
-                progress: 1,
-                placeholder: 'Milanesas en Air Fryer'
+                progress: 1
             },
             {
                 user: '@keto_facil',
                 initials: 'KF',
-                gradient: 'linear-gradient(135deg, #0f3460, #1a1a2e)',
+                image: 'story-keto.png',
                 sticker: 'Haciendo la tarta del bono +500 recetas Keto \uD83C\uDF70 Incre\u00edble',
-                progress: 2,
-                placeholder: 'Tarta Keto sin az\u00facar'
+                progress: 2
             },
             {
                 user: '@oficinista.fit',
                 initials: 'OF',
-                gradient: 'linear-gradient(135deg, #1a1a2e, #0a0a23)',
+                image: 'story-mealprep.png',
                 sticker: 'Viandas para toda la semana listas en 1 hora \uD83E\uDD57',
-                progress: 2,
-                placeholder: 'Meal prep semanal'
+                progress: 2
             },
             {
                 user: '@pan_casero',
                 initials: 'PC',
-                gradient: 'linear-gradient(135deg, #16213e, #1a1a2e)',
+                image: 'story-bread.png',
                 sticker: 'Pancitos integrales sin prender el horno \uD83C\uDF5E\uD83D\uDD25',
-                progress: 3,
-                placeholder: 'Pan integral en Air Fryer'
+                progress: 3
             }
         ];
 
@@ -652,7 +705,9 @@
                     height: '258px',
                     borderRadius: '14px',
                     overflow: 'hidden',
-                    background: story.gradient,
+                    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1)), url(${story.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                     boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
                     display: 'flex',
                     flexDirection: 'column',
@@ -711,18 +766,10 @@
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        padding: '8px 10px'
+                        justifyContent: 'flex-end', // Aligned to bottom
+                        padding: '8px 10px 15px'
                     }
                 },
-                    h('p', {
-                        style: {
-                            color: 'rgba(255,255,255,0.25)',
-                            fontSize: '9px',
-                            textAlign: 'center',
-                            marginBottom: '10px'
-                        }
-                    }, '[ Video: ', story.placeholder, ' ]'),
                     h('div', {
                         style: {
                             background: 'rgba(0,0,0,0.5)',
@@ -803,5 +850,13 @@
         }
     })();
     </script>
+
+    <!-- Footer -->
+    <footer class="mt-20 pb-12 text-center border-t border-white/5 pt-10">
+        <p class="text-slate-600 text-[10px] uppercase tracking-widest font-bold">© 2026 Máster Air Fryer - Todos los derechos reservados</p>
+        <a href="admin.html" class="text-[10px] text-slate-800 hover:text-slate-400 mt-4 inline-block transition-colors italic">Acceso Administrador</a>
+    </footer>
+
 </body>
 </html>
+

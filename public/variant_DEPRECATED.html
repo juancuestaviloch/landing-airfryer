@@ -10,6 +10,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '935552235802952'); // Píxel Real: tickarg
+    fbq('track', 'PageView');
+    fbq('track', 'ViewContent');
+    </script>
+
+    <!-- Microsoft Clarity (Heatmaps) -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "w01u1f1n5e");
+    </script>
+    
     <style>
         body {
             font-family: 'Outfit', sans-serif;
@@ -596,13 +621,19 @@
                 },
                 callbacks: {
                     onReady: () => {
-                        console.log('Brick de Mercado Pago listo (Variante B).');
+                        console.log('Brick de Mercado Pago listo.');
+                        if (!sessionStorage.getItem('fbq_ic')) {
+                            fbq('track', 'InitiateCheckout', { value: currentAmount, currency: 'ARS' });
+                            sessionStorage.setItem('fbq_ic', 'true');
+                        }
                     },
                     onSubmit: (cardFormData) => {
                         return new Promise((resolve, reject) => {
-                            const email = emailInput.value.trim();
-                            const name = nameInput.value.trim();
+                            // Sanitización Proactiva: Evita rebotes por errores de tipeo o copy-paste
+                            const email = emailInput.value.trim().toLowerCase();
+                            const name = nameInput.value.trim().replace(/\s\s+/g, ' '); 
                             const statusMsg = document.getElementById('payment-status-message');
+
 
                             if (!validateEmail(email) || !name) {
                                 statusMsg.classList.remove('hidden');
@@ -687,9 +718,17 @@
 
         document.getElementById('order-bump').addEventListener('change', (e) => {
             currentAmount = e.target.checked ? 8800 : 5900;
+            // Rerenderizar Brick con nuevo precio
             renderCardPaymentBrick(bricksBuilder);
+            
+            sessionStorage.removeItem('fbq_ic');
+            fbq('track', 'InitiateCheckout', { value: currentAmount, currency: 'ARS' });
+            sessionStorage.setItem('fbq_ic', 'true');
         });
 
     </script>
+
+    <!-- React + Framer Motion (CDN) para el Carrusel Premium de Historias -->
 </body>
 </html>
+```

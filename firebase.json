@@ -1,12 +1,28 @@
 {
   "firestore": {
     "database": "(default)",
-    "location": "us-central1",
+    "location": "nam5",
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
   "functions": {
     "source": "functions",
     "runtime": "nodejs20"
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Master Air Fryer Admin Panel",
+        "supportEmail": "veo3juan@gmail.com"
+      }
+    }
   }
 }
