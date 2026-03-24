@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comunidad - Netflix Gastronómico</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    
+    .tab-active { 
+      border-b-2 border-orange-500; 
+      color: #fff;
+    }
+    .tab-inactive { 
+      border-b-2 border-transparent; 
+      color: #94a3b8;
+      transition: all 0.3s ease;
+    }
+    .tab-inactive:active { color: #fff; }
+    
+    .feed-container {
+      display: none;
+      animation: fadeIn 0.4s ease-in;
+    }
+    .feed-container.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .post-card {
+      transition: all 0.2s ease;
+      active: transform 0.95;
+    }
+    .post-card:active {
+      transform: scale(0.98);
+    }
+    
+    .heart-btn { transition: all 0.3s ease; }
+    .heart-btn.liked { color: #ef4444; }
+    
+    .badge-glow {
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+      border: 1px solid rgba(249, 115, 22, 0.5);
+    }
+    
+    .progress-bar {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .safe-area-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+    
+    .nav-icon-active { color: #f97316; }
+    .nav-icon-inactive { color: #64748b; }
+  </style>
+</head>
+<body class="bg-slate-950 text-white overflow-hidden h-screen flex flex-col">
+
+  <!-- Header Tabs -->
+  <div class="sticky top-0 z-20 bg-slate-950 border-b border-slate-800 px-4 py-3">
+    <div class="flex gap-6 max-w-md mx-auto">
+      <button onclick="switchTab('comunidad')" class="tab-button tab-active pb-2 text-sm font-semibold transition-colors active:tab-inactive" data-tab="comunidad">
+        Comunidad
+      </button>
+      <button onclick="switchTab('perfil')" class="tab-button tab-inactive pb-2 text-sm font-semibold transition-colors active:tab-inactive" data-tab="perfil">
+        Mi Perfil
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 overflow-y-auto scrollbar-hide max-w-md mx-auto w-full">
+    
+    <!-- COMUNIDAD TAB -->
+    <div id="comunidad" class="feed-container active">
+      <div class="space-y-4 p-4">
+        
+        <!-- Post 1: Milanesas -->
+        <div class="post-card bg-slate-900 rounded-lg overflow-hidden border border-slate-800 active:border-orange-500/50">
+          <div class="p-3 border-b border-slate-800 flex items-center gap-3">
+            <img src="/post-milanesas.jpg" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-orange-500/30">
+            <div class="flex-1">
+              <p class="text-sm font-semibold">@mami.ocupada88</p>
+              <p class="text-xs text-slate-400">Hace 2h</p>
+            </div>
+          </div>
+          
+          <div class="relative bg-black">
+            <img src="/post-milanesas.jpg" alt="Milanesas doradas" class="w-full aspect-square object-cover">
+            <div class="absolute top-2 right-2 bg-orange-500/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold">
+              365 Air Fryer
+            </div>
+          </div>
+          
+          <div class="p-4 space-y-3">
+            <p class="text-sm text-slate-200"><span class="font-semibold">Milanesas de pollo doradas</span> - Crujientes por fuera, tiernas por dentro. Sin una gota de aceite.</p>
+            
+            <div class="flex items-center gap-4 py-2">
+              <button class="heart-btn flex items-center gap-2 text-slate-400 hover:text-red-500 transition-colors" onclick="toggleLike(this)">
+                <i class="far fa-heart text-lg"></i>
+                <span class="text-xs" onclick="event.stopPropagation()">234</span>
+              </button>
+              <button class="flex items-center gap-2 text-slate-400 hover:text-slate-200 transition-colors">
+                <i class="far fa-comment text-lg"></i>
+                <span class="text-xs">18</span>
+              </button>
+              <button class="ml-auto flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded-full text-xs font-semibold transition-all active:scale-95">
+                <i class="far fa-bookmark"></i>
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post 2: Verduras -->
+        <div class="post-card bg-slate-900 rounded-lg overflow-hidden border border-slate-800 active:border-orange-500/50">
+          <div class="p-3 border-b border-slate-800 flex items-center gap-3">
+            <img src="/profile-avatar.jpg" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-orange-500/30">
+            <div class="flex-1">
+              <p class="text-sm font-semibold">@chef.saludable</p>
+              <p class="text-xs text-slate-400">Hace 4h</p>
+            </div>
+          </div>
+          
+          <div class="relative bg-black">
+            <img src="/post-verduras.jpg" alt="Verduras asadas" class="w-full aspect-square object-cover">
+            <div class="absolute top-2 right-2 bg-orange-500/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold">
+              365 Air Fryer
+            </div>
+          </div>
+          
+          <div class="p-4 space-y-3">
+            <p class="text-sm text-slate-200"><span class="font-semibold">Verduras caramelizadas</span> - Mix de brócoli, zanahoria y champiñones. Perfectas como acompañamiento.</p>
+            
+            <div class="flex items-center gap-4 py-2">
+              <button class="heart-btn flex items-center gap-2 text-slate-400 hover:text-red-500 transition-colors" onclick="toggleLike(this)">
+                <i class="far fa-heart text-lg"></i>
+                <span class="text-xs" onclick="event.stopPropagation()">156</span>
+              </button>
+              <button class="flex items-center gap-2 text-slate-400 hover:text-slate-200 transition-colors">
+                <i class="far fa-comment text-lg"></i>
+                <span class="text-xs">9</span>
+              </button>
+              <button class="ml-auto flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded-full text-xs font-semibold transition-all active:scale-95">
+                <i class="far fa-bookmark"></i>
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post 3: Salmón -->
+        <div class="post-card bg-slate-900 rounded-lg overflow-hidden border border-slate-800 active:border-orange-500/50">
+          <div class="p-3 border-b border-slate-800 flex items-center gap-3">
+            <img src="/profile-avatar.jpg" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-orange-500/30">
+            <div class="flex-1">
+              <p class="text-sm font-semibold">@cena.elegante</p>
+              <p class="text-xs text-slate-400">Hace 6h</p>
+            </div>
+          </div>
+          
+          <div class="relative bg-black">
+            <img src="/post-salmon.jpg" alt="Salmón" class="w-full aspect-square object-cover">
+            <div class="absolute top-2 right-2 bg-orange-500/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold">
+              365 Air Fryer
+            </div>
+          </div>
+          
+          <div class="p-4 space-y-3">
+            <p class="text-sm text-slate-200"><span class="font-semibold">Salmón jugoso con espárragos</span> - Cena de restaurante en 15 minutos. Ultra saludable.</p>
+            
+            <div class="flex items-center gap-4 py-2">
+              <button class="heart-btn flex items-center gap-2 text-slate-400 hover:text-red-500 transition-colors" onclick="toggleLike(this)">
+                <i class="far fa-heart text-lg"></i>
+                <span class="text-xs" onclick="event.stopPropagation()">412</span>
+              </button>
+              <button class="flex items-center gap-2 text-slate-400 hover:text-slate-200 transition-colors">
+                <i class="far fa-comment text-lg"></i>
+                <span class="text-xs">27</span>
+              </button>
+              <button class="ml-auto flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded-full text-xs font-semibold transition-all active:scale-95">
+                <i class="far fa-bookmark"></i>
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post 4: Pizza -->
+        <div class="post-card bg-slate-900 rounded-lg overflow-hidden border border-slate-800 active:border-orange-500/50">
+          <div class="p-3 border-b border-slate-800 flex items-center gap-3">
+            <img src="/profile-avatar.jpg" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-orange-500/30">
+            <div class="flex-1">
+              <p class="text-sm font-semibold">@pizza.casera</p>
+              <p class="text-xs text-slate-400">Hace 8h</p>
+            </div>
+          </div>
+          
+          <div class="relative bg-black">
+            <img src="/post-pizza.jpg" alt="Pizza" class="w-full aspect-square object-cover">
+            <div class="absolute top-2 right-2 bg-orange-500/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold">
+              365 Air Fryer
+            </div>
+          </div>
+          
+          <div class="p-4 space-y-3">
+            <p class="text-sm text-slate-200"><span class="font-semibold">Pizza crujiente casera</span> - Masa crocante, queso derretido, toppings frescos. Reunión familiar aprobada.</p>
+            
+            <div class="flex items-center gap-4 py-2">
+              <button class="heart-btn flex items-center gap-2 text-slate-400 hover:text-red-500 transition-colors" onclick="toggleLike(this)">
+                <i class="far fa-heart text-lg"></i>
+                <span class="text-xs" onclick="event.stopPropagation()">598</span>
+              </button>
+              <button class="flex items-center gap-2 text-slate-400 hover:text-slate-200 transition-colors">
+                <i class="far fa-comment text-lg"></i>
+                <span class="text-xs">42</span>
+              </button>
+              <button class="ml-auto flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded-full text-xs font-semibold transition-all active:scale-95">
+                <i class="far fa-bookmark"></i>
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MI PERFIL TAB -->
+    <div id="perfil" class="feed-container">
+      <div class="space-y-4 p-4 pb-32">
+        
+        <!-- Profile Header -->
+        <div class="text-center py-6 border-b border-slate-800">
+          <img src="/profile-avatar.jpg" alt="Tu perfil" class="w-24 h-24 rounded-full mx-auto mb-4 ring-4 ring-orange-500/30 object-cover">
+          <h2 class="text-xl font-bold">María García</h2>
+          <p class="text-slate-400 text-sm mt-1">@mami.ocupada88</p>
+          
+          <div class="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-orange-600 to-orange-500 px-4 py-2 rounded-full text-sm font-semibold badge-glow">
+            <i class="fas fa-crown text-yellow-300"></i>
+            Nivel: Chef Principiante
+          </div>
+        </div>
+
+        <!-- Mis Guardados -->
+        <div class="space-y-3">
+          <h3 class="text-sm font-bold text-slate-300">Mis Guardados</h3>
+          <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+            <div class="flex-shrink-0 w-20 h-20 bg-slate-800 rounded-lg overflow-hidden ring-2 ring-orange-500/30 cursor-pointer hover:ring-orange-500 transition-all">
+              <img src="/post-milanesas.jpg" alt="Guardado" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-shrink-0 w-20 h-20 bg-slate-800 rounded-lg overflow-hidden ring-2 ring-slate-700 cursor-pointer hover:ring-orange-500/50 transition-all">
+              <img src="/post-salmon.jpg" alt="Guardado" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-shrink-0 w-20 h-20 bg-slate-800 rounded-lg overflow-hidden ring-2 ring-slate-700 cursor-pointer hover:ring-orange-500/50 transition-all">
+              <img src="/post-verduras.jpg" alt="Guardado" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+
+        <!-- Recompensas y Referidos -->
+        <div class="space-y-3 bg-gradient-to-br from-slate-800 to-slate-900 p-4 rounded-lg border-2 border-orange-500/40 badge-glow">
+          <h3 class="font-bold text-sm">Progreso para desbloquear</h3>
+          <p class="text-orange-400 font-semibold text-sm">30 Snacks Saludables</p>
+          
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs text-slate-400 mb-1">
+              <span>Progreso</span>
+              <span>0/1 amigos</span>
+            </div>
+            <div class="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+              <div class="bg-gradient-to-r from-orange-500 to-orange-400 h-full w-0 transition-all duration-500 progress-bar"></div>
+            </div>
+          </div>
+          
+          <button class="w-full mt-3 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95">
+            <i class="fab fa-whatsapp"></i>
+            Invitar por WhatsApp
+          </button>
+        </div>
+
+        <!-- Menú de Ajustes -->
+        <div class="space-y-2 bg-slate-900 rounded-lg border border-slate-800 overflow-hidden">
+          <button class="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-800 transition-colors active:bg-slate-700 border-b border-slate-800 last:border-0">
+            <i class="fas fa-cog text-orange-500 text-lg"></i>
+            <span class="text-sm font-medium">Ajustes de Cuenta</span>
+            <i class="fas fa-chevron-right text-slate-600 ml-auto text-xs"></i>
+          </button>
+          
+          <button class="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-800 transition-colors active:bg-slate-700 border-b border-slate-800 last:border-0">
+            <i class="fas fa-credit-card text-orange-500 text-lg"></i>
+            <span class="text-sm font-medium">Historial de Compras</span>
+            <i class="fas fa-chevron-right text-slate-600 ml-auto text-xs"></i>
+          </button>
+          
+          <button class="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-800 transition-colors active:bg-slate-700 border-b border-slate-800 last:border-0">
+            <i class="fas fa-headset text-orange-500 text-lg"></i>
+            <span class="text-sm font-medium">Soporte Técnico</span>
+            <i class="fas fa-chevron-right text-slate-600 ml-auto text-xs"></i>
+          </button>
+          
+          <button class="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-800 transition-colors active:bg-slate-700 text-red-500">
+            <i class="fas fa-sign-out-alt text-lg"></i>
+            <span class="text-sm font-medium">Cerrar Sesión</span>
+            <i class="fas fa-chevron-right text-slate-600 ml-auto text-xs"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-slate-900 border-t border-slate-800 px-4 py-2 safe-area-bottom z-30 flex justify-around">
+    <button onclick="switchTab('comunidad')" class="flex flex-col items-center gap-1 py-2 px-4 rounded-lg active:bg-slate-800 transition-colors">
+      <i class="fas fa-users text-xl" id="nav-comunidad"></i>
+      <span class="text-xs font-semibold" id="nav-text-comunidad">Comunidad</span>
+    </button>
+    
+    <button onclick="switchTab('perfil')" class="flex flex-col items-center gap-1 py-2 px-4 rounded-lg active:bg-slate-800 transition-colors">
+      <i class="fas fa-user text-xl" id="nav-perfil"></i>
+      <span class="text-xs font-semibold" id="nav-text-perfil">Perfil</span>
+    </button>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      // Hide all tabs
+      document.querySelectorAll('.feed-container').forEach(el => {
+        el.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('tab-active');
+        btn.classList.add('tab-inactive');
+      });
+      
+      // Update nav icons
+      document.getElementById('nav-comunidad').classList.remove('nav-icon-active');
+      document.getElementById('nav-comunidad').classList.add('nav-icon-inactive');
+      document.getElementById('nav-perfil').classList.remove('nav-icon-active');
+      document.getElementById('nav-perfil').classList.add('nav-icon-inactive');
+      
+      // Show selected tab
+      document.getElementById(tab).classList.add('active');
+      document.querySelector(`[data-tab="${tab}"]`).classList.add('tab-active');
+      document.querySelector(`[data-tab="${tab}"]`).classList.remove('tab-inactive');
+      
+      // Highlight nav icon
+      if (tab === 'comunidad') {
+        document.getElementById('nav-comunidad').classList.add('nav-icon-active');
+      } else {
+        document.getElementById('nav-perfil').classList.add('nav-icon-active');
+      }
+    }
+
+    function toggleLike(btn) {
+      const icon = btn.querySelector('i');
+      const count = btn.querySelector('span');
+      const isLiked = btn.classList.contains('liked');
+      
+      if (isLiked) {
+        btn.classList.remove('liked');
+        icon.classList.remove('fas');
+        icon.classList.add('far');
+        count.textContent = parseInt(count.textContent) - 1;
+      } else {
+        btn.classList.add('liked');
+        icon.classList.remove('far');
+        icon.classList.add('fas');
+        count.textContent = parseInt(count.textContent) + 1;
+        
+        // Heart animation
+        const heart = document.createElement('div');
+        heart.innerHTML = '<i class="fas fa-heart text-red-500 text-2xl"></i>';
+        heart.style.position = 'fixed';
+        heart.style.left = btn.getBoundingClientRect().left + 'px';
+        heart.style.top = btn.getBoundingClientRect().top + 'px';
+        heart.style.pointerEvents = 'none';
+        heart.style.animation = 'floatUp 0.6s ease-out forwards';
+        document.body.appendChild(heart);
+        
+        setTimeout(() => heart.remove(), 600);
+      }
+    }
+
+    // Add float animation for hearts
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes floatUp {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-60px) scale(1.5);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Scroll behavior
+    document.querySelectorAll('.overflow-x-auto').forEach(el => {
+      el.addEventListener('scroll', (e) => {
+        const scrollLeft = e.target.scrollLeft;
+        e.target.style.maskImage = scrollLeft > 0 ? 'linear-gradient(to right, transparent, black 20px)' : 'linear-gradient(to right, black, black)';
+      });
+    });
+  </script>
+
+</body>
+</html>

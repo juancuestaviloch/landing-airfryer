@@ -27,6 +27,10 @@
       "dest": "/public/store.html"
     },
     {
+      "src": "/community",
+      "dest": "/public/community.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/$1"
     }
