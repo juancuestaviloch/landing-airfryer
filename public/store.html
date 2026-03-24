@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1">
+    <meta name="theme-color" content="#0f172a">
+    <title>Tienda - Netflix Gastronómico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        input, textarea, button {
+            -webkit-user-select: text;
+            user-select: text;
+        }
+        body {
+            background-color: rgb(15, 23, 42);
+            color: rgb(226, 232, 240);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overscroll-behavior: none;
+        }
+        html, body, #app {
+            height: 100%;
+            width: 100%;
+        }
+        .safe-area-bottom {
+            padding-bottom: max(1rem, env(safe-area-inset-bottom));
+        }
+        
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(226, 232, 240, 0.1);
+        }
+        
+        /* Viral Loop Card Glow */
+        .viral-card {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 40px rgba(249, 115, 22, 0.2);
+            animation: viralPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes viralPulse {
+            0%, 100% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.2); }
+            50% { box-shadow: 0 0 60px rgba(249, 115, 22, 0.35); }
+        }
+        
+        /* Button Interactions */
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #d97706 100%);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.4);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+        }
+        
+        .btn-unlock {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 0.625rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+        
+        .btn-unlock:active {
+            transform: scale(0.95);
+        }
+        
+        /* Lock Icon Animation */
+        .lock-icon {
+            animation: lockBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes lockBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Progress Bar */
+        .progress-track {
+            height: 8px;
+            background: rgba(226, 232, 240, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f97316 0%, #fbbf24 100%);
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+        }
+        
+        /* Product Card Overlay */
+        .product-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        /* Price Strikethrough */
+        .price-original {
+            text-decoration: line-through;
+            opacity: 0.6;
+            font-size: 0.875rem;
+        }
+        
+        .price-offer {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Bottom Navigation Spacing */
+        .pb-safe {
+            padding-bottom: max(5rem, calc(1rem + env(safe-area-inset-bottom)));
+        }
+        
+        /* Modal Animation */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-content {
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        /* Shimmer Effect for Loading */
+        @keyframes shimmer {
+            0%, 100% { background-position: 0 0; }
+            50% { background-position: 1000px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="flex flex-col">
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto pb-safe">
+            <!-- Store Header -->
+            <div class="px-4 pt-6 pb-2">
+                <h1 class="text-3xl font-bold text-white mb-1">Descubre más</h1>
+                <p class="text-slate-400 text-sm">Potencia tu cocina con nuestras colecciones premium</p>
+            </div>
+
+            <!-- Viral Loop Card -->
+            <div class="px-4 py-4">
+                <div class="viral-card rounded-2xl p-6">
+                    <!-- Viral Title -->
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">🎁</span>
+                        <h2 class="text-xl font-bold text-white">Desbloquea 30 Snacks Saludables GRATIS</h2>
+                    </div>
+
+                    <!-- Persuasive Text -->
+                    <p class="text-slate-300 text-sm mb-5 leading-relaxed">
+                        Invita a 1 amigo a usar la app y llévate este recetario premium sin pagar un peso.
+                    </p>
+
+                    <!-- Progress Indicator -->
+                    <div class="mb-5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-semibold text-orange-400">Progreso</span>
+                            <span class="text-xs font-bold text-orange-300">0/1 Amigos</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Invite Button -->
+                    <button class="btn-primary w-full flex items-center justify-center gap-2" onclick="inviteViaWhatsApp()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949 9.865 9.865 0 006.59 16.122 9.868 9.868 0 005.226-14.563 9.876 9.876 0 00-7.557-2.508z"/>
+                        </svg>
+                        Invitar por WhatsApp
+                    </button>
+                </div>
+            </div>
+
+            <!-- Premium Collections -->
+            <div class="px-4 py-6">
+                <h3 class="text-xl font-bold text-white mb-4">Colecciones Premium</h3>
+
+                <!-- Product Grid -->
+                <div class="space-y-4">
+                    <!-- Product 1: +500 Recetas Keto -->
+                    <div class="relative rounded-2xl overflow-hidden h-64 cursor-pointer group" onclick="openProductModal('keto')">
+                        <img src="/product-keto.jpg" alt="+500 Recetas Keto" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="product-overlay">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="lock-icon text-amber-400">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <div class="text-center">
+                                <p class="text-sm text-slate-300 mb-1">+500 Recetas Keto</p>
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="price-original">$25.000</span>
+                                    <span class="price-offer">$7.900 ARS</span>
+                                </div>
+                            </div>
+                            <button class="btn-unlock mt-4">Desbloquear al instante</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 2: Viandas para el Trabajo -->
+                    <div class="relative rounded-2xl overflow-hidden h-64 cursor-pointer group" onclick="openProductModal('viandas')">
+                        <img src="/product-viandas.jpg" alt="Viandas para el Trabajo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="product-overlay">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="lock-icon text-amber-400">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <div class="text-center">
+                                <p class="text-sm text-slate-300 mb-1">Viandas para el Trabajo</p>
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="price-original">$20.000</span>
+                                    <span class="price-offer">$5.900 ARS</span>
+                                </div>
+                            </div>
+                            <button class="btn-unlock mt-4">Desbloquear al instante</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3: Recetas para Diabéticos -->
+                    <div class="relative rounded-2xl overflow-hidden h-64 cursor-pointer group" onclick="openProductModal('diabetic')">
+                        <img src="/product-diabetic.jpg" alt="Recetas para Diabéticos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="product-overlay">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="lock-icon text-amber-400">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <div class="text-center">
+                                <p class="text-sm text-slate-300 mb-1">Recetas para Diabéticos</p>
+                                <div class="flex flex-col items-center gap-1">
+                                    <span class="price-original">$22.000</span>
+                                    <span class="price-offer">$6.900 ARS</span>
+                                </div>
+                            </div>
+                            <button class="btn-unlock mt-4">Desbloquear al instante</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation (Fixed) -->
+        <nav class="fixed bottom-0 left-0 right-0 safe-area-bottom bg-slate-900 border-t border-slate-800 flex items-center justify-around" style="padding-bottom: max(0.5rem, env(safe-area-inset-bottom))">
+            <a href="dashboard.html" class="flex flex-col items-center justify-center py-3 text-slate-400 hover:text-slate-300 transition-colors" onclick="event.preventDefault(); navigateTo('dashboard.html')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span class="text-xs mt-1">Inicio</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center py-3 text-slate-400 hover:text-slate-300 transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span class="text-xs mt-1">Mensajes</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center py-3 text-orange-500">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span class="text-xs mt-1">Tienda</span>
+            </a>
+            <a href="ebook-details.html" class="flex flex-col items-center justify-center py-3 text-slate-400 hover:text-slate-300 transition-colors" onclick="event.preventDefault(); navigateTo('ebook-details.html')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 19l7-7 3 3V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"></path>
+                    <circle cx="9" cy="9" r="2"></circle>
+                </svg>
+                <span class="text-xs mt-1">Biblioteca</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center py-3 text-slate-400 hover:text-slate-300 transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="text-xs mt-1">Perfil</span>
+            </a>
+        </nav>
+
+        <!-- Product Modal -->
+        <div id="productModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden flex items-end z-50" onclick="closeProductModal(event)">
+            <div class="modal-content w-full bg-slate-900 rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 id="modalTitle" class="text-xl font-bold text-white">Producto</h2>
+                    <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-200">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div id="modalContent" class="text-slate-300">
+                    <!-- Content will be populated by JS -->
+                </div>
+                <button class="btn-primary w-full mt-6">Desbloquear al instante</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const productData = {
+            keto: {
+                title: '+500 Recetas Keto',
+                description: 'La colección más completa de recetas keto en español. Desde desayunos hasta postres, todas las recetas están optimizadas para mantener tu cuerpo en cetosis.',
+                features: [
+                    '500+ recetas probadas',
+                    'Macros calculadas',
+                    'Guía de iniciación',
+                    'Actualizaciones de por vida'
+                ]
+            },
+            viandas: {
+                title: 'Viandas para el Trabajo',
+                description: 'Recetas para preparar tu comida de la semana. Ahorra tiempo, dinero y mantente saludable con nuestro sistema de meal prep.',
+                features: [
+                    '52 semanas de menús',
+                    'Listas de compra',
+                    'Porciones calculadas',
+                    'Fácil de preparar'
+                ]
+            },
+            diabetic: {
+                title: 'Recetas para Diabéticos',
+                description: 'Recetas deliciosas y seguras especialmente diseñadas para personas con diabetes. Cada receta incluye información nutricional detallada.',
+                features: [
+                    '300+ recetas certificadas',
+                    'Índice glucémico bajo',
+                    'Nutritiva y equilibrada',
+                    'Asesoramiento incluido'
+                ]
+            }
+        };
+
+        function openProductModal(product) {
+            const data = productData[product];
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalContent').innerHTML = `
+                <p class="mb-4">${data.description}</p>
+                <h3 class="font-semibold text-white mb-3">Incluye:</h3>
+                <ul class="space-y-2">
+                    ${data.features.map(f => `<li class="flex items-start gap-2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-orange-400 mt-0.5 flex-shrink-0">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>${f}</span>
+                    </li>`).join('')}
+                </ul>
+            `;
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeProductModal(e) {
+            if (e && e.target !== document.getElementById('productModal')) return;
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function inviteViaWhatsApp() {
+            const message = 'Hey! Descubrí esta increíble app de recetas. Tengo acceso a recetas de Air Fryer, Keto, Viandas y mucho más. Únete conmigo: https://netflix-gastronomico.com';
+            const encoded = encodeURIComponent(message);
+            window.open(`https://wa.me/?text=${encoded}`, '_blank');
+        }
+
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeProductModal();
+        });
+    </script>
+</body>
+</html>

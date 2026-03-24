@@ -15,6 +15,22 @@
       "handle": "filesystem"
     },
     {
+      "src": "/dashboard",
+      "dest": "/public/dashboard.html"
+    },
+    {
+      "src": "/ebook-details",
+      "dest": "/public/ebook-details.html"
+    },
+    {
+      "src": "/store",
+      "dest": "/public/store.html"
+    },
+    {
+      "src": "/community",
+      "dest": "/public/community.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/$1"
     }

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#020617" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>365 Recetas Air Fryer Sin Aceite</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:  '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              gold: '#f59e0b',
+              'gold-light': '#fbbf24',
+            },
+            surface: {
+              950: '#020617',
+              900: '#0f172a',
+              800: '#1e293b',
+              700: '#334155',
+              600: '#475569',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Inter', sans-serif; background-color: #020617; overscroll-behavior: none; }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .glow-orange { box-shadow: 0 0 20px rgba(249, 115, 22, 0.35); }
+    .text-glow { text-shadow: 0 0 12px rgba(249, 115, 22, 0.6); }
+
+    .glass {
+      background: rgba(2, 6, 23, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .btn-press {
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    .btn-press:active {
+      transform: scale(0.95);
+      opacity: 0.85;
+    }
+
+    .card-hover {
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+    .card-hover:active {
+      transform: scale(0.97);
+    }
+    @media (hover: hover) {
+      .card-hover:hover {
+        background: rgba(15, 23, 42, 0.6);
+      }
+    }
+
+    /* Hero gradient overlay */
+    .hero-gradient {
+      background: linear-gradient(to bottom, transparent 0%, rgba(2, 6, 23, 0.7) 60%, rgba(2, 6, 23, 0.95) 100%);
+    }
+
+    /* Tab animation */
+    .tab-underline {
+      position: relative;
+      transition: color 0.2s ease;
+    }
+    .tab-underline.active {
+      color: #f97316;
+    }
+    .tab-underline.active::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ea580c, #f59e0b);
+      border-radius: 1px;
+    }
+
+    /* Recipe item list */
+    .recipe-item {
+      transition: all 0.15s ease;
+    }
+    .recipe-item:active {
+      transform: scale(0.98);
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    /* Modal backdrop */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 40;
+    }
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Modal slide-up */
+    .modal-content {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 50;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-content.active {
+      transform: translateY(0);
+    }
+
+    /* Heart animation */
+    @keyframes heart-beat {
+      0%   { transform: scale(1); }
+      25%  { transform: scale(1.3); }
+      50%  { transform: scale(1); }
+    }
+    .heart-beat { animation: heart-beat 0.4s ease; }
+
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  </style>
+</head>
+
+<body class="bg-surface-950 text-white min-h-screen">
+
+  <!-- ============================================================
+       PHONE WRAPPER (desktop simulation)
+  ============================================================ -->
+  <div class="min-h-screen flex items-start justify-center bg-surface-950 md:bg-slate-900">
+    <div class="relative w-full max-w-md min-h-screen bg-surface-950 flex flex-col overflow-hidden md:shadow-2xl md:shadow-black">
+
+      <!-- ============================================================
+           TOP BAR (Back + Heart)
+      ============================================================ -->
+      <header class="fixed top-0 left-0 right-0 max-w-md mx-auto z-30 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/40 to-transparent pt-safe">
+        <!-- Back button -->
+        <button onclick="goBack()" aria-label="Volver" class="btn-press w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </button>
+
+        <!-- Heart favorite -->
+        <button id="heart-btn" onclick="toggleFavorite()" aria-label="Agregar a favoritos" class="btn-press w-10 h-10 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 transition-colors">
+          <svg id="heart-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+      </header>
+
+      <!-- ============================================================
+           SCROLLABLE CONTENT
+      ============================================================ -->
+      <main class="flex-1 overflow-y-auto no-scrollbar pt-0" id="main-scroll">
+
+        <!-- ====================================================
+             HERO SECTION
+        ==================================================== -->
+        <section class="relative w-full" style="aspect-ratio: 16/10;">
+          <!-- Hero Image -->
+          <img src="/ebook-airfryer.jpg" alt="365 Recetas Air Fryer Sin Aceite" 
+            class="absolute inset-0 w-full h-full object-cover" />
+          
+          <!-- Gradient overlay -->
+          <div class="absolute inset-0 hero-gradient"></div>
+
+          <!-- Content (bottom) -->
+          <div class="absolute inset-0 flex flex-col justify-end p-5 pb-6">
+            <h1 class="text-2xl font-bold text-white leading-tight mb-3">365 Recetas Air Fryer Sin Aceite</h1>
+            
+            <!-- Badges -->
+            <div class="flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-surface-800/60 text-slate-300 border border-surface-700/50">
+                ⏱️ 15 Minutos
+              </span>
+              <span class="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-surface-800/60 text-slate-300 border border-surface-700/50">
+                🔥 Principiantes
+              </span>
+              <span class="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-brand-500/15 text-brand-300 border border-brand-500/30">
+                ⭐ 4.9/5
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================
+             ACTION BUTTONS (Sticky)
+        ==================================================== -->
+        <div class="sticky top-0 z-20 px-4 py-3 bg-gradient-to-b from-surface-950 via-surface-950 to-surface-950/80 backdrop-blur-sm border-b border-surface-800/30">
+          <button onclick="openReader()" class="btn-press w-full py-3 rounded-xl bg-brand-500 hover:bg-brand-600 glow-orange text-white text-sm font-bold transition-colors mb-2.5 flex items-center justify-center gap-2">
+            <span>📖</span> Leer Recetario Interactivo
+          </button>
+          <button onclick="openPDF()" class="btn-press w-full py-3 rounded-xl border border-surface-700 bg-surface-800 hover:bg-surface-700 text-slate-300 text-sm font-bold transition-colors flex items-center justify-center gap-2">
+            <span>📥</span> Descargar PDF (Versión para Imprimir)
+          </button>
+        </div>
+
+        <!-- ====================================================
+             TABS: Índice de Recetas / Acerca del Autor
+        ==================================================== -->
+        <div class="px-4 mt-5 mb-4 border-b border-surface-800/50">
+          <div class="flex gap-8">
+            <button onclick="switchTab('index')" class="tab-underline active pb-2.5 text-sm font-semibold text-white" data-tab="index">
+              Índice de Recetas
+            </button>
+            <button onclick="switchTab('about')" class="tab-underline pb-2.5 text-sm font-semibold text-slate-400" data-tab="about">
+              Acerca del Autor / Tips
+            </button>
+          </div>
+        </div>
+
+        <!-- ====================================================
+             TAB CONTENT: Índice de Recetas
+        ==================================================== -->
+        <div id="tab-index" class="px-4 pb-6">
+          <p class="text-xs text-slate-400 mb-4">Toca en cualquier receta para ver los detalles</p>
+          
+          <!-- Recipe List Items -->
+          <div class="space-y-2">
+            <!-- Recipe 1 -->
+            <button onclick="openRecipe('Chuletón Asado (8 min)')" class="recipe-item w-full flex items-center gap-4 p-4 rounded-xl bg-surface-800/40 border border-surface-700/50 hover:border-brand-500/30 text-left">
+              <div class="w-12 h-12 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Chuletón Asado</h3>
+                <p class="text-xs text-slate-400">Carne jugosa y perfecta</p>
+              </div>
+              <span class="text-xs font-medium text-brand-400 flex-shrink-0">8 min</span>
+            </button>
+
+            <!-- Recipe 2 -->
+            <button onclick="openRecipe('Alitas de Pollo Barbacoa (20 min)')" class="recipe-item w-full flex items-center gap-4 p-4 rounded-xl bg-surface-800/40 border border-surface-700/50 hover:border-brand-500/30 text-left">
+              <div class="w-12 h-12 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Alitas de Pollo Barbacoa</h3>
+                <p class="text-xs text-slate-400">Sabor ahumado irresistible</p>
+              </div>
+              <span class="text-xs font-medium text-brand-400 flex-shrink-0">20 min</span>
+            </button>
+
+            <!-- Recipe 3 -->
+            <button onclick="openRecipe('Papas Fritas Caseras (25 min)')" class="recipe-item w-full flex items-center gap-4 p-4 rounded-xl bg-surface-800/40 border border-surface-700/50 hover:border-brand-500/30 text-left">
+              <div class="w-12 h-12 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Papas Fritas Caseras</h3>
+                <p class="text-xs text-slate-400">Crujientes sin usar aceite</p>
+              </div>
+              <span class="text-xs font-medium text-brand-400 flex-shrink-0">25 min</span>
+            </button>
+
+            <!-- Recipe 4 -->
+            <button onclick="openRecipe('Bizcocho de Naranja (30 min)')" class="recipe-item w-full flex items-center gap-4 p-4 rounded-xl bg-surface-800/40 border border-surface-700/50 hover:border-brand-500/30 text-left">
+              <div class="w-12 h-12 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Bizcocho de Naranja</h3>
+                <p class="text-xs text-slate-400">Postre tierno y aromático</p>
+              </div>
+              <span class="text-xs font-medium text-brand-400 flex-shrink-0">30 min</span>
+            </button>
+
+            <!-- Recipe 5 -->
+            <button onclick="openRecipe('Vegetales Asados Variados (22 min)')" class="recipe-item w-full flex items-center gap-4 p-4 rounded-xl bg-surface-800/40 border border-surface-700/50 hover:border-brand-500/30 text-left">
+              <div class="w-12 h-12 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-white truncate">Vegetales Asados Variados</h3>
+                <p class="text-xs text-slate-400">Colores y nutrientes</p>
+              </div>
+              <span class="text-xs font-medium text-brand-400 flex-shrink-0">22 min</span>
+            </button>
+          </div>
+
+          <p class="text-xs text-slate-500 text-center mt-6 mb-4">+ 360 recetas más en el recetario completo</p>
+        </div>
+
+        <!-- ====================================================
+             TAB CONTENT: Acerca del Autor / Tips
+        ==================================================== -->
+        <div id="tab-about" class="hidden px-4 pb-6">
+          <div class="rounded-xl border border-surface-700 bg-surface-800/30 p-5 mb-5">
+            <h3 class="text-sm font-bold text-white mb-2">Acerca del Autor</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Juan es chef profesional con más de 10 años de experiencia en cocina saludable. Pasionado por las freidoras de aire y sus infinitas posibilidades, creó esta colección de 365 recetas para disfrutar sin culpa.
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <div class="rounded-lg border border-surface-700 bg-surface-800/20 p-4">
+              <p class="text-xs font-semibold text-brand-400 mb-1">💡 Tip #1: Temperatura Base</p>
+              <p class="text-xs text-slate-300">Calienta la freidora a 200°C durante 3 minutos antes de cocinar para resultados óptimos.</p>
+            </div>
+
+            <div class="rounded-lg border border-surface-700 bg-surface-800/20 p-4">
+              <p class="text-xs font-semibold text-brand-400 mb-1">💡 Tip #2: Espacio Vital</p>
+              <p class="text-xs text-slate-300">No aglutines los ingredientes. Deja espacio entre ellos para una cocción uniforme.</p>
+            </div>
+
+            <div class="rounded-lg border border-surface-700 bg-surface-800/20 p-4">
+              <p class="text-xs font-semibold text-brand-400 mb-1">💡 Tip #3: Spray de Aceite</p>
+              <p class="text-xs text-slate-300">Usa spray de aceite vegetal mínimamente para potenciar dorado y sabor sin calorías extra.</p>
+            </div>
+
+            <div class="rounded-lg border border-surface-700 bg-surface-800/20 p-4">
+              <p class="text-xs font-semibold text-brand-400 mb-1">💡 Tip #4: Limpeza Regular</p>
+              <p class="text-xs text-slate-300">Limpia la canasta cada 5 usos para mantener la calidad de tus preparaciones.</p>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL: Recipe Details (Bottom Sheet)
+  ============================================================ -->
+  <div id="recipe-modal-backdrop" class="modal-backdrop" onclick="closeRecipeModal()"></div>
+  <div id="recipe-modal" class="modal-content max-w-md mx-auto left-1/2 -translate-x-1/2 rounded-t-3xl bg-surface-900 border-t border-surface-700">
+    <div class="px-5 pt-4 pb-5 border-b border-surface-700/50">
+      <div class="flex items-center justify-between mb-3">
+        <h2 id="recipe-title" class="text-lg font-bold text-white">Chuletón Asado</h2>
+        <button onclick="closeRecipeModal()" class="btn-press w-8 h-8 rounded-lg bg-surface-800 hover:bg-surface-700 text-slate-400 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="px-5 py-4 space-y-4">
+      <div>
+        <p class="text-xs font-semibold text-slate-400 uppercase mb-2">Ingredientes Principales</p>
+        <ul class="text-sm text-slate-300 space-y-1 pl-4">
+          <li>• 4 chuletones de res (250g c/u)</li>
+          <li>• Sal marina y pimienta negra</li>
+          <li>• Ajo molido</li>
+          <li>• Hierbas aromáticas (romero, tomillo)</li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs font-semibold text-slate-400 uppercase mb-2">Preparación</p>
+        <ol class="text-sm text-slate-300 space-y-1 pl-4">
+          <li>1. Precalienta la freidora a 200°C durante 3 minutos</li>
+          <li>2. Sazona los chuletones generosamente</li>
+          <li>3. Coloca en la canasta sin superponerlos</li>
+          <li>4. Cocina durante 8 minutos (revuelve a mitad)</li>
+          <li>5. Deja reposar 2 minutos antes de servir</li>
+        </ol>
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeRecipeModal()" class="flex-1 py-2.5 rounded-lg bg-surface-800 hover:bg-surface-700 text-white text-sm font-semibold transition-colors btn-press">
+          Cerrar
+        </button>
+        <button onclick="shareRecipe()" class="flex-1 py-2.5 rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold transition-colors btn-press">
+          📤 Compartir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SCRIPTS
+  ============================================================ -->
+  <script>
+    // State
+    let currentTab = 'index';
+    let isFavorite = false;
+
+    // Navigation
+    function goBack() {
+      window.location.href = '/dashboard.html';
+    }
+
+    // Favorite toggle with animation
+    function toggleFavorite() {
+      const btn = document.getElementById('heart-btn');
+      const icon = document.getElementById('heart-icon');
+      isFavorite = !isFavorite;
+      
+      btn.classList.add('heart-beat');
+      if (isFavorite) {
+        icon.style.fill = '#f97316';
+        icon.style.stroke = '#f97316';
+      } else {
+        icon.style.fill = 'none';
+        icon.style.stroke = '#fb923c';
+      }
+      
+      setTimeout(() => btn.classList.remove('heart-beat'), 400);
+    }
+
+    // Tab switching
+    function switchTab(tabName) {
+      currentTab = tabName;
+      
+      // Update tab styles
+      document.querySelectorAll('.tab-underline').forEach(tab => {
+        if (tab.getAttribute('data-tab') === tabName) {
+          tab.classList.add('active');
+          tab.classList.remove('text-slate-400');
+          tab.classList.add('text-white');
+        } else {
+          tab.classList.remove('active');
+          tab.classList.remove('text-white');
+          tab.classList.add('text-slate-400');
+        }
+      });
+
+      // Update content visibility
+      const indexContent = document.getElementById('tab-index');
+      const aboutContent = document.getElementById('tab-about');
+      
+      if (tabName === 'index') {
+        indexContent.classList.remove('hidden');
+        aboutContent.classList.add('hidden');
+      } else {
+        indexContent.classList.add('hidden');
+        aboutContent.classList.remove('hidden');
+      }
+    }
+
+    // Recipe modal
+    function openRecipe(recipeName) {
+      const modal = document.getElementById('recipe-modal');
+      const backdrop = document.getElementById('recipe-modal-backdrop');
+      const titleEl = document.getElementById('recipe-title');
+      
+      titleEl.textContent = recipeName;
+      modal.classList.add('active');
+      backdrop.classList.add('active');
+    }
+
+    function closeRecipeModal() {
+      const modal = document.getElementById('recipe-modal');
+      const backdrop = document.getElementById('recipe-modal-backdrop');
+      modal.classList.remove('active');
+      backdrop.classList.remove('active');
+    }
+
+    // Main actions
+    function openReader() {
+      alert('Abriendo recetario interactivo...\n\nEsta funcionalidad estaría vinculada a una lectora integrada con las 365 recetas en formato interactivo.');
+    }
+
+    function openPDF() {
+      alert('Iniciando descarga de PDF...\n\nEsta funcionalidad descargaría la versión para imprimir del recetario.');
+    }
+
+    function shareRecipe() {
+      const recipe = document.getElementById('recipe-title').textContent;
+      if (navigator.share) {
+        navigator.share({
+          title: recipe,
+          text: `Mira esta receta: ${recipe}`,
+          url: window.location.href
+        }).catch(err => console.log('Error:', err));
+      } else {
+        alert(`Comparte esta receta: ${recipe}`);
+      }
+    }
+
+    // Close modal when clicking backdrop
+    document.getElementById('recipe-modal-backdrop').addEventListener('click', closeRecipeModal);
+  </script>
+
+</body>
+</html>

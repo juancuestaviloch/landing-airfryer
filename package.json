@@ -1,0 +1,12 @@
+{
+  "name": "airfryer-ebooks-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx http-server public -p 3000 -c-1",
+    "start": "npx http-server public -p 3000 -c-1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
