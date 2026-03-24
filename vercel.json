@@ -23,6 +23,10 @@
       "dest": "/public/ebook-details.html"
     },
     {
+      "src": "/store",
+      "dest": "/public/store.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/$1"
     }
